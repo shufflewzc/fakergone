@@ -71,7 +71,7 @@ const JD_API_HOST = `https://api.m.jd.com`;
             } else {
                 dyjStr = dyjCode.split("@")
                 if (dyjStr[0]) {
-                    $.rid = dyjDtr[0]
+                    $.rid = dyjStr[0]
                     $.inviter = dyjStr[1]
                 }
             }
