@@ -9,7 +9,7 @@
   先账号互助完再助力助力池
   默认其余的助力给助力池
   如果介意请不要使用本脚本
-  
+
 */
 
 // prettier-ignore
@@ -30,7 +30,7 @@ function randomString(e) {
 }
 $.InviteList = []
 $.innerInviteList = [];
-const HelpAuthorFlag = true;//是否助力  true 助力，false 不助力
+const HelpAuthorFlag = false;//是否助力  true 助力，false 不助力
 
 let codeIndex = $.getval('gua_wealth_island_codeId') || '' // 定义提交助力码的账号如2,3,5
 if ($.isNode() && process.env.gua_wealth_island_codeId) {
@@ -133,7 +133,7 @@ async function run() {
     $.Biztask = []
     $.Aggrtask = []
     $.Employtask = []
-    
+
     await GetHomePageInfo()
 
     if($.HomeInfo){
