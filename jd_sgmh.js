@@ -314,7 +314,7 @@ function readShareCode() {
     $.get({
       url: `https://cdn.nz.lu/api/sgmh/${randomCount}`,
       headers: {
-        'Host':'api.jdsharecode.xyz'
+        'Host':'api.sharecode.ga'
       },
       timeout: 10000
     }, (err, resp, data) => {

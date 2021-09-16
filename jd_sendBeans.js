@@ -117,7 +117,6 @@ async function getActivityInfo(){
   for (let i = 0; i < $.activityList.length; i++) {
     if($.activityList[i].status !== 'NOT_BEGIN'){
       $.activityId = $.activityList[i].activeId;
-      $.activityCode = $.activityList[i].activityCode;
       break;
     }
   }
@@ -137,9 +136,9 @@ async function getActivityInfo(){
 async function myReward(){
   return new Promise(async (resolve) => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
+    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
     let options = {
-      "url": `https://sendbeans.jd.com/common/api/bean/activity/myReward?itemsPerPage=10&currentPage=1&sendType=0&invokeKey=JL1VTNRadM68cIMQ`,
+      "url": `https://sendbeans.jd.com/common/api/bean/activity/myReward?itemsPerPage=10&currentPage=1&sendType=0&invokeKey=RtKLB8euDo7KwsO0`,
       "headers": {
         "Host": "sendbeans.jd.com",
         "Origin": "https://sendbeans.jd.com",
@@ -186,9 +185,9 @@ async function myReward(){
 async function getActivityList(){
   return new Promise((resolve) => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
+    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
     let options = {
-      "url": `https://sendbeans.jd.com/common/api/bean/activity/get/entry/list/by/channel?channelId=14&channelType=H5&sendType=0&singleActivity=false&invokeKey=JL1VTNRadM68cIMQ`,
+      "url": `https://sendbeans.jd.com/common/api/bean/activity/get/entry/list/by/channel?channelId=14&channelType=H5&sendType=0&singleActivity=false&invokeKey=RtKLB8euDo7KwsO0`,
       "headers": {
         "Host": "sendbeans.jd.com",
         "Origin": "https://sendbeans.jd.com",
@@ -304,19 +303,19 @@ async function rewardMain(){
 async function rewardBean(){
   return new Promise((resolve) => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt).toString()
+    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
     let options = {
-      "url": `https://draw.jdfcloud.com/common/api/bean/activity/sendBean?rewardRecordId=${$.rewardRecordId}&jdChannelId=&userSource=mp&appId=wxccb5c536b0ecd1bf&invokeKey=JL1VTNRadM68cIMQ`,
+      "url": `https://draw.jdfcloud.com/common/api/bean/activity/sendBean?rewardRecordId=${$.rewardRecordId}&jdChannelId=&userSource=mp&appId=wxccb5c536b0ecd1bf&invokeKey=RtKLB8euDo7KwsO0`,
       "headers":  {
         'content-type' : `application/json`,
         'Connection' : `keep-alive`,
         'Accept-Encoding' : `gzip,compress,br,deflate`,
         'App-Id' : `wxccb5c536b0ecd1bf`,
         'Lottery-Access-Signature' : `wxccb5c536b0ecd1bf1537237540544h79HlfU`,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d2a) NetType/WIFI Language/zh_CN",
-        'openId' : ``,
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        'openId' : `oPcgJ4_X7uCMeTgGmar-rmiWst1Y`,
         'Host' : `draw.jdfcloud.com`,
-        'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/755/page-frame.html`,
+        'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/733/page-frame.html`,
         'cookie' : $.cookie,
         'lkt': lkt,
         'lks': lks
@@ -353,19 +352,19 @@ function getRandomArrayElements(arr, count) {
 async function help() {
   await new Promise((resolve) => {
     let lkt = new Date().getTime()
-    let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt + $.activityCode).toString()
+    let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
     let options = {
-      "url": `https://draw.jdfcloud.com/common/api/bean/activity/participate?activityCode=${$.activityCode}&activityId=${$.activityId}&inviteUserPin=${encodeURIComponent($.oneTuanInfo['user'])}&invokeKey=JL1VTNRadM68cIMQ&timestap=${Date.now()}`,
+      "url": `https://draw.jdfcloud.com/common/api/bean/activity/participate?activityId=${$.activityId}&inviteUserPin=${encodeURIComponent($.oneTuanInfo['user'])}&invokeKey=RtKLB8euDo7KwsO0&timestap=${Date.now()}`,
       "headers":  {
         'content-type' : `application/json`,
         'Connection' : `keep-alive`,
         'Accept-Encoding' : `gzip,compress,br,deflate`,
         'App-Id' : `wxccb5c536b0ecd1bf`,
         'Lottery-Access-Signature' : `wxccb5c536b0ecd1bf1537237540544h79HlfU`,
-        "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d2a) NetType/WIFI Language/zh_CN",
-        'openId' : ``,
+        "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        'openId' : `oPcgJ4_X7uCMeTgGmar-rmiWst1Y`,
         'Host' : `draw.jdfcloud.com`,
-        'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/755/page-frame.html`,
+        'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/733/page-frame.html`,
         'cookie' : $.cookie,
         'lkt': lkt,
         'lks': lks
@@ -393,8 +392,8 @@ async function help() {
 
 async function invite() {
   let lkt = new Date().getTime()
-  let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt + $.activityCode).toString()
-  const url = `https://draw.jdfcloud.com/common/api/bean/activity/invite?activityCode=${$.activityCode}&openId=&activityId=${$.activityId}&userSource=mp&formId=123&jdChannelId=&fp=&appId=wxccb5c536b0ecd1bf&invokeKey=JL1VTNRadM68cIMQ`;
+  let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
+  const url = `https://draw.jdfcloud.com/common/api/bean/activity/invite?openId=oPcgJ4_X7uCMeTgGmar-rmiWst1Y&activityId=${$.activityId}&userSource=mp&formId=123&jdChannelId=&fp=&appId=wxccb5c536b0ecd1bf&invokeKey=RtKLB8euDo7KwsO0`;
   const method = `POST`;
   const headers = {
     'content-type' : `application/json`,
@@ -402,10 +401,10 @@ async function invite() {
     'Accept-Encoding' : `gzip,compress,br,deflate`,
     'App-Id' : `wxccb5c536b0ecd1bf`,
     'Lottery-Access-Signature' : `wxccb5c536b0ecd1bf1537237540544h79HlfU`,
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d2a) NetType/WIFI Language/zh_CN",
-    'openId' : ``,
+    "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+    'openId' : `oPcgJ4_X7uCMeTgGmar-rmiWst1Y`,
     'Host' : `draw.jdfcloud.com`,
-    'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/755/page-frame.html`,
+    'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/733/page-frame.html`,
     'cookie' : $.cookie,
     'lkt': lkt,
     'lks': lks
@@ -436,22 +435,23 @@ async function invite() {
   })
 }
 
+
 async function getActivityDetail() {
   let lkt = new Date().getTime()
-  let lks = $.md5('' + 'JL1VTNRadM68cIMQ' + lkt + $.activityCode).toString()
-  const url = `https://draw.jdfcloud.com/common/api/bean/activity/detail?activityCode=${$.activityCode}&activityId=${$.activityId}&userOpenId=&timestap=${Date.now()}&userSource=mp&jdChannelId=&appId=wxccb5c536b0ecd1bf&invokeKey=JL1VTNRadM68cIMQ`;
+  let lks = $.md5('' + 'RtKLB8euDo7KwsO0' + lkt).toString()
+  const url = `https://draw.jdfcloud.com/common/api/bean/activity/detail?activityId=${$.activityId}&userOpenId=oPcgJ4_X7uCMeTgGmar-rmiWst1Y&timestap=${Date.now()}&userSource=mp&jdChannelId=&appId=wxccb5c536b0ecd1bf&invokeKey=RtKLB8euDo7KwsO0`;
   const method = `GET`;
   const headers = {
     'cookie' : $.cookie,
-    'openId' : ``,
+    'openId' : `oPcgJ4_X7uCMeTgGmar-rmiWst1Y`,
     'Connection' : `keep-alive`,
     'App-Id' : `wxccb5c536b0ecd1bf`,
     'content-type' : `application/json`,
     'Host' : `draw.jdfcloud.com`,
     'Accept-Encoding' : `gzip,compress,br,deflate`,
-    "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148 MicroMessenger/8.0.13(0x18000d2a) NetType/WIFI Language/zh_CN",
+    "User-Agent": $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
     'Lottery-Access-Signature' : `wxccb5c536b0ecd1bf1537237540544h79HlfU`,
-    'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/755/page-frame.html`,
+    'Referer' : `https://servicewechat.com/wxccb5c536b0ecd1bf/733/page-frame.html`,
     'lkt': lkt,
     'lks': lks
   };
