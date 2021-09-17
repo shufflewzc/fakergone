@@ -31,8 +31,6 @@ let helpAuthor = true;
 const randomCount = $.isNode() ? 5 : 5;
 let cash_exchange = false;//是否消耗2元红包兑换200京豆，默认否
 const inviteCodes = [
-  `IhMxZOS6YvUn8226iw@fkFwauq3ZA@f0JyJuW7bvQ@IhM0bu-0b_kv8W6E@eU9YKpnxOLhYtQSygTJQ@-oaWtXEHOrT_bNMMVso@eU9YG7XaD4lXsR2krgpG@KxMzZOW7YvQ@eU9Ya7jnZP5w822BmntC0g@eU9YPa34F5lnpBWRjyp3@eU9YarnmYfRwpTzUziAV1Q`,
-  `IhMxZOS6YvUn8226iw@fkFwauq3ZA@f0JyJuW7bvQ@IhM0bu-0b_kv8W6E@eU9YKpnxOLhYtQSygTJQ@-oaWtXEHOrT_bNMMVso@eU9YG7XaD4lXsR2krgpG@KxMzZOW7YvQ@eU9Ya7jnZP5w822BmntC0g@eU9YPa34F5lnpBWRjyp3@eU9YarnmYfRwpTzUziAV1Q`,
 ]
 if ($.isNode()) {
   Object.keys(jdCookieNode).forEach((item) => {
@@ -528,10 +526,10 @@ function shareCodesFormat() {
       let authorCode = deepCopy($.authorCode)
       $.newShareCodes = [...(authorCode.map((item, index) => authorCode[index] = item['inviteCode'])), ...$.newShareCodes];
     }
-    const readShareCodeRes = await readShareCode();
-    if (readShareCodeRes && readShareCodeRes.code === 200) {
-      $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    }
+    // const readShareCodeRes = await readShareCode();
+    // if (readShareCodeRes && readShareCodeRes.code === 200) {
+    //   $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
+    // }
     $.newShareCodes.map((item, index) => $.newShareCodes[index] = { "inviteCode": item, "shareDate": $.shareDate })
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
