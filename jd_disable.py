@@ -45,7 +45,7 @@ def getTaskList():
 def getDuplicate(taskList):
     wholeNames={}
     duplicateID=[]
-	taskListTemp=[]
+    taskListTemp=[]
     for task in taskList:
         if task['name'] in wholeNames.keys() and task['command']find(substr) < 0:
             duplicateID.append(task['_id'])
