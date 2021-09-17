@@ -13,9 +13,13 @@
 // 每个账号 shareCdoe 是一个 json，示例如下
 // {"smp":"22bdadsfaadsfadse8a","active":"jdnc_1_btorange210113_2","joinnum":"1"}
 let JxncShareCodes = [
-  '',//账号一的好友shareCode,不同好友中间用@符号隔开
-  '',//账号二的好友shareCode，不同好友中间用@符号隔开
 ]
+
+const logShareCodes = require('./utils/jdShareCodes');
+if (logShareCodes.JXNC_SHARECODES.length > 0 && !process.env.JXNC_SHARECODES) {
+  process.env.JXNC_SHARECODES = logShareCodes.JXNC_SHARECODES.join('&');
+}
+
 // 判断github action里面是否有京喜农场助力码
 if (process.env.JXNC_SHARECODES) {
   if (process.env.JXNC_SHARECODES.indexOf('&') > -1) {
