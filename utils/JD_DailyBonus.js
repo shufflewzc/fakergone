@@ -230,6 +230,10 @@ function notify() {
   const EnvInfo3 = $nobyda.isJSBox ? "JD_Cookies" : "CookiesJD";
   const move = CookieMove($nobyda.read(EnvInfo) || Key, $nobyda.read(EnvInfo2) || DualKey, EnvInfo, EnvInfo2, EnvInfo3);
   const cookieSet = $nobyda.read(EnvInfo3);
+  // 添加京东金融签到请求JSON
+  if (process.env.JD_FINANCE_KEY) {
+    OtherKey = process.env.JD_FINANCE_KEY;
+  }
   if (DeleteCookie) {
     const write = $nobyda.write("", EnvInfo3);
     throw new Error(`Cookie清除${write?`成功`:`失败`}, 请手动关闭脚本内"DeleteCookie"选项`);
