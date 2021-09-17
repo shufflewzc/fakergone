@@ -10,6 +10,9 @@ exports.PLANT_BEAN_SHARECODES = [];
 exports.FRUITSHARECODES = [];
 exports.PETSHARECODES = [];
 exports.JDJOY_SHARECODES = [];
+exports.JDSGMH_SHARECODES = [];
+exports.JD_CASH_SHARECODES = [];
+
 
 let fileContent = '';
 if (process.env.SHARE_CODE_FILE) {
@@ -30,6 +33,8 @@ let shareCodesMap = {
   "FRUITSHARECODES": [],
   "PETSHARECODES": [],
   "JDJOY_SHARECODES": [],
+  "JD_CASH_SHARECODES": [],
+  "JDSGMH_SHARECODES": [],
 };
 for (let i = 0; i < lines.length; i++) {
   if (lines[i].includes('京东赚赚')) {
@@ -38,14 +43,18 @@ for (let i = 0; i < lines.length; i++) {
     shareCodesMap.DDFACTORY_SHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('京喜工厂')) {
     shareCodesMap.DREAM_FACTORY_SHARE_CODES.push(lines[i].split('】')[1].trim());
-  } else if (lines[i].includes('京东种豆得豆')) {
+  } else if (lines[i].includes('种豆得豆')) {
     shareCodesMap.PLANT_BEAN_SHARECODES.push(lines[i].split('】')[1].trim());
-  } else if (lines[i].includes('东东农场')) {
+  } else if (lines[i].includes('京东农场')) {
     shareCodesMap.FRUITSHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('东东萌宠')) {
     shareCodesMap.PETSHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('crazyJoy')) {
     shareCodesMap.JDJOY_SHARECODES.push(lines[i].split('】')[1].trim());
+  } else if (lines[i].includes('签到领现金')) {
+    shareCodesMap.JD_CASH_SHARECODES.push(lines[i].split('】')[1].trim());
+  } else if (lines[i].includes('闪购盲盒')) {
+    shareCodesMap.JDSGMH_SHARECODES.push(lines[i].split('】')[1].trim());
   }
 }
 for (let key in shareCodesMap) {
@@ -69,4 +78,3 @@ for (let key in shareCodesMap) {
     exports[key][i] = shareCodesMap[key].sort(() => Math.random() - 0.5).join('@');
   }
 }
-
