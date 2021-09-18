@@ -10,7 +10,7 @@ import requests
 import time
 
 ip="localhost"
-substr="shufflewzc_faker2" #检测到重复脚本后,不禁用脚本的仓库
+substr="shufflewzc_faker2" #检测到重复脚本后,保留脚本的仓库
 
 def loadSend():
     print("加载推送功能")
