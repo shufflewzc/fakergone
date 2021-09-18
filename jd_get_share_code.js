@@ -597,7 +597,7 @@ function getCFD(showInvite = true) {
           strMyShareId,
           strPin,
         } = JSON.parse(data);
-        console.log(`【京东账号${$.index}（${$.UserName}）财富岛】${strMyShareId}`)
+        console.log(`【京东账号${$.index}（${$.UserName}）财富岛】${JSON.parse(data)}`)
       } catch (e) {
         $.logErr(e, resp);
       } finally {
