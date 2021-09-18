@@ -10,16 +10,16 @@ import requests
 import time
 
 ip="localhost"
-substr="shufflewzc_faker2"
+substr="shufflewzc_faker2" #检测到重复脚本后,不禁用脚本的仓库
 
 def loadSend():
     print("加载推送功能")
     global send
     cur_path = os.path.abspath(os.path.dirname(__file__))
     sys.path.append(cur_path)
-    if os.path.exists(cur_path + "/deleteDuplicateTasksNotify.py"):
+    if os.path.exists(cur_path + "/whyour_hundun_util.py"):#util推送脚本路径
         try:
-            from deleteDuplicateTasksNotify import send
+            from whyour_hundun_util import send  #更改成util推送脚本名(无后缀)
         except:
             print("加载通知服务失败~")
 
@@ -45,23 +45,24 @@ def getTaskList():
 def getDuplicate(taskList):
     wholeNames={}
     duplicateID=[]
-	taskListTemp=[]
+    taskListTemp=[]
     for task in taskList:
-        if task['name'] in wholeNames.keys() and task['command']find(substr) < 0:
+        if task['name'] in wholeNames.keys() and task['command'].find(substr) < 0:
             duplicateID.append(task['_id'])
         else:
-			taskListTemp.append(task);
+            taskListTemp.append(task)
             wholeNames[task['name']] = 1
     return getDuplicateForOnlyFake(taskListTemp,duplicateID)
 
+
 def getDuplicateForOnlyFake(taskListTemp,duplicateID):
-	if len(duplicateID)==0:
+    if len(duplicateID)==0:
         return duplicateID
     duplicateIDTemp=[]
     for task in taskListTemp:
-		for taskTemp in taskListTemp:
-			if task['_id'] != taskTemp['_id'] and task['name'] == taskTemp['name'] and task['command']find(substr) < 0:
-				duplicateID.append(task['_id'])
+        for taskTemp in taskListTemp:
+            if task['_id'] != taskTemp['_id'] and task['name'] == taskTemp['name'] and task['command'].find(substr) < 0:
+                duplicateID.append(task['_id'])
     return duplicateID
 
 def getData(duplicateID):
@@ -122,4 +123,4 @@ if __name__ == '__main__':
     else:
         disableDuplicateTasks(duplicateID)
     send("禁用成功","\n%s\n%s"%(before,after))
-        # print("禁用结束！")
+    print("禁用结束！")
