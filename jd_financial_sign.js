@@ -7,17 +7,17 @@
 ============Quantumultx===============
 [task_local]
 #京东金融签到
-2 0-23/4 * * * jd_financial_sign.js, tag=京东金融签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
+1 0 * * * jd_financial_sign.js, tag=京东金融签到, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true
 
 ================Loon==============
 [Script]
-cron "2 0-23/4 * * *" script-path=jd_financial_sign.js,tag=京东金融签到
+cron "1 0 * * *" script-path=jd_financial_sign.js,tag=京东金融签到
 
 ===============Surge=================
-京东金融签到 = type=cron,cronexp="2 0-23/4 * * *",wake-system=1,timeout=3600,script-path=jd_financial_sign.js
+京东金融签到 = type=cron,cronexp="1 0 * * *",wake-system=1,timeout=3600,script-path=jd_financial_sign.js
 
 ============小火箭=========
-京东金融签到 = type=cron,script-path=jd_financial_sign.js, cronexpr="2 0-23/4 * * *", timeout=3600, enable=true
+京东金融签到 = type=cron,script-path=jd_financial_sign.js, cronexpr="1 0 * * *", timeout=3600, enable=true
  */
 
 //financial sign by xumf
@@ -41,6 +41,7 @@ if (process.env.JD_FINANCE_CK) {
 
     if (!jdFinancdBody || !jdFinancdCk) {
         console.log("必需填写环境变量JD_FINANCE_BODY与JD_FINANCE_CK,脚本才能正常运行!");
+        return;
     }
 
     const options = {
@@ -60,7 +61,11 @@ if (process.env.JD_FINANCE_CK) {
     };
     request(options, function (error, response) {
         if (error) throw new Error(error);
+        if (response.body && response.body.resultData && response.body.resultData.resBusiMsg) {
+            console.log(response.body.resultData.resBusiMsg);
+        } else {
             console.log(response.body);
+        }
     });
 
 })()
