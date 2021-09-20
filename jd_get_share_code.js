@@ -303,6 +303,7 @@ async function getJdZZ() {
     return new Promise(resolve => {
       $.get(taskZZUrl("interactTaskIndex"), async (err, resp, data) => {
         try {
+          console.log(`err:${err}, resp:${resp}, data:${data}`);
           if (err) {
             console.log(`${JSON.stringify(err)}`)
             console.log(`${$.name} API请求失败，请检查网路重试`)
