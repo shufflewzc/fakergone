@@ -75,6 +75,6 @@ for (let key in shareCodesMap) {
     continue;
   }
   for (let i = 0; i < cookieCount; i++) {
-    exports[key][i] = shareCodesMap[key].sort(() => Math.random() - 0.5).join('@');
+    exports[key][i] = shareCodesMap[key].join('@');
   }
 }
