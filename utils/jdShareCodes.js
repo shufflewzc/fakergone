@@ -47,7 +47,7 @@ for (let i = 0; i < lines.length; i++) {
     shareCodesMap.PLANT_BEAN_SHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('京东农场')) {
     shareCodesMap.FRUITSHARECODES.push(lines[i].split('】')[1].trim());
-  } else if (lines[i].includes('东东萌宠')) {
+  } else if (lines[i].includes('京东萌宠')) {
     shareCodesMap.PETSHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('crazyJoy')) {
     shareCodesMap.JDJOY_SHARECODES.push(lines[i].split('】')[1].trim());
