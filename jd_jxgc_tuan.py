@@ -424,6 +424,7 @@ def buildURL(ck, url):
                 st = st + str(_stklist[i]) + ':' + names[_stklist[i]] + "&"
             s += 1
         h5st = requestAlgo(st, time)
+        print("京喜开团日志,url:{},oh5st:{},h5st:{}".format(url,oh5st,h5st))
         url = url.replace(oh5st, h5st)
         # url1 = re.findall(r'(.*?\?)', url)[0]
         # url2 = re.findall(r'https://m.jingxi.com/dreamfactory.*?\?(.*)', url)[0]
