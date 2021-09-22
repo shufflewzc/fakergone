@@ -424,7 +424,7 @@ def buildURL(ck, url):
             s += 1
         h5st = requestAlgo(st, time)
         if (oh5st is None or h5st is None):
-            print("京喜开团日志,oh5st:{},h5st:{}".format(oh5st,h5st))
+            print("京喜开团日志,oh5st is None or h5st is None")
         else:
             url = url.replace(oh5st, h5st)
         # url1 = re.findall(r'(.*?\?)', url)[0]
