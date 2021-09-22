@@ -79,8 +79,6 @@ if ($.isNode()) {
   //打乱CK,再进行参团
   if (!Array.prototype.derangedArray) {Array.prototype.derangedArray = function() {for(var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);return this;};}
   cookiesArr.derangedArray();
-  
-  console.log(`京喜开团日志,tuanIds:${$.tuanIds},cookiesArr:${cookiesArr}`);
   for (let i = 0; i < cookiesArr.length && $.tuanIds.length>0; i++) {
     if (cookiesArr[i]) {
       $.index = i + 1;
