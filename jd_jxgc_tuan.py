@@ -174,6 +174,7 @@ class getJDCookie(object):
             r = re.compile(r"pt_key=.*?pt_pin=.*?;", re.M | re.S | re.I)
             result = r.findall(cookies)
             if len(result) >= 1:
+                print("京喜开团日志,cookies:{},result:{}".format(cookies, result))
                 print("您已配置{}个账号".format(len(result)))
                 u = 1
                 for i in result:
