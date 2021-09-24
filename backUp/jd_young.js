@@ -48,8 +48,10 @@ if ($.isNode()) {
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
             $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
             authorCodeList = [
-                '5cdf190513a64e28a0dbf9d6aeea3737','30672e29c9e346c1916e79ba0d923eab'
             ]
+            if (process.env.JD_SIGN_UUID) {
+                authorCodeList.push(process.env.JD_SIGN_UUID)
+            }
             $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
             $.authorNum = `${random(1000000, 9999999)}`
             $.randomCode = random(1000000, 9999999)

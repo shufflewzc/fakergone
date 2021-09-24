@@ -50,6 +50,9 @@ if ($.isNode()) {
         }
         await main();
     }
+    if (process.env.JD_SIGN_UUID) {
+        $.authorCodeList.push(process.env.JD_SIGN_UUID)
+    }
     if($.authorCodeList.length > 0){
         $.inviteCodeList.push(...getRandomArrayElements($.authorCodeList, 1));
     }
