@@ -23,15 +23,15 @@ if ($.isNode()) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', {"open-url": "https://bean.m.jd.com/bean/signIndex.action"});
         return;
     }
-    let res = [];
-    try{res = await getAuthorShareCode('https://raw.githubusercontent.com/lsh26/share_code/main/decompression.json');}catch (e) {}
-    if(!res){
-        try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/decompression.json');}catch (e) {}
-        if(!res){res = [];}
-    }
-    if(res.length > 0){
-        $.shareUuid = getRandomArrayElements(res,1)[0];
-    }
+    // let res = [];
+    // try{res = await getAuthorShareCode('https://raw.githubusercontent.com/lsh26/share_code/main/decompression.json');}catch (e) {}
+    // if(!res){
+    //     try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/decompression.json');}catch (e) {}
+    //     if(!res){res = [];}
+    // }
+    // if(res.length > 0){
+    //     $.shareUuid = getRandomArrayElements(res,1)[0];
+    // }
     for (let i = 0; i < cookiesArr.length; i++) {
         await getUA();
         $.index = i + 1;
@@ -118,7 +118,7 @@ async function main() {
         await $.wait(1500);
         $.score2Time++;
     }
-    if($.index === '1'){
+    if($.index === '0'){
         $.shareUuid = $.activityData.actorUuid;
     }
 }
