@@ -652,7 +652,7 @@ async function getShareCode() {
   await getPlantBean()
   await getJdFactory()
   await getJxFactory()
-  await getJxNc()
+  // await getJxNc()
   await getJdZZ()
   await getJoy()
   await getSgmh()
