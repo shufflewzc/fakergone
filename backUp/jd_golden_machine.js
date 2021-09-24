@@ -29,14 +29,14 @@ let res = [];
         return;
     }
 
-    try{res = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/goldPhone.json');}catch (e) {}
-    if(!res){
-        try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/goldPhone.json');}catch (e) {}
-        if(!res){res = [];}
-    }
-    if(res && res.length > 0){
-        $.authorCode = getRandomArrayElements(res,1)[0];
-    }
+    // try{res = await getAuthorShareCode('https://raw.githubusercontent.com/star261/jd/main/code/goldPhone.json');}catch (e) {}
+    // if(!res){
+    //     try{res = await getAuthorShareCode('https://gitee.com/star267/share-code/raw/master/goldPhone.json');}catch (e) {}
+    //     if(!res){res = [];}
+    // }
+    // if(res && res.length > 0){
+    //     $.authorCode = getRandomArrayElements(res,1)[0];
+    // }
     for (let i = 0; i < cookiesArr.length; i++) {
         await getUA();
         $.index = i + 1;
@@ -91,7 +91,7 @@ async function main() {
     }else{
         console.log(`已参团`);
     }
-    if($.index === 1){
+    if($.index === 0){
         $.authorCode = $.useInfo.code
     }
     $.needVoteList = $.homeInfo.hard_list;
