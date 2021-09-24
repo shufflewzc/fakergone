@@ -47,8 +47,8 @@ if ($.isNode()) {
             }
             authorCodeList = [
             ]
-            if (process.env.JD_AN_JIA) {
-                authorCodeList.push(process.env.JD_AN_JIA)
+            if (process.env.JD_SIGN_UUID) {
+                authorCodeList.push(process.env.JD_SIGN_UUID)
             }
             $.bean = 0;
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
