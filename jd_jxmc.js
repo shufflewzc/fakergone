@@ -78,7 +78,7 @@ let token ='';
     }
   }
   console.log('\n##################开始账号内互助#################\n');
-  $.shareCode = undefined
+  $.shareCode = []
   // await getShareCode('jxmc.json')
   let newCookiesArr = [];
   for(let i = 0;i<$.helpCkList.length;i+=4){
@@ -582,7 +582,11 @@ function dealReturn(type, data) {
                 console.log(`红包邀请码:${data.data.sharekey}`);
                 $.inviteCodeList_hb.push({'use':$.UserName,'code':data.data.sharekey,'max':false});
             }
-        } else {
+        }
+        else if (data.ret === 2704) {
+          console.log(`奖品己发完`);
+        } 
+        else {
             console.log(`异常：${JSON.stringify(data)}\n`);
         }
         break;
