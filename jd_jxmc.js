@@ -539,7 +539,7 @@ function dealReturn(type, data) {
         console.log(`助力成功`);
       }else if (data.ret === 0 && data.data.result === 4){
         console.log(`助力次数已用完 或者已助力`);
-        //$.canHelp = false;
+        $.oneCodeInfo.max = true;
       }else if(data.ret === 0 && data.data.result === 5){
         console.log(`助力已满`);
         $.oneCodeInfo.max = true;
