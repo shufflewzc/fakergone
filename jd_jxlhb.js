@@ -52,7 +52,6 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
     res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jxhb.json')
   }
   if (res && res.activeId) $.activeId = res.activeId;
-  $.authorMyShareIds = [...((res && res.codes) || [])];
   //开启红包,获取互助码
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
@@ -95,20 +94,6 @@ const BASE_URL = 'https://m.jingxi.com/cubeactive/steprewardv3'
         $.packetIdArr.splice(j, 1)
         j--
         continue
-      }
-    }
-    if ($.canHelp && ($.authorMyShareIds && $.authorMyShareIds.length)) {
-      console.log(`\n【${$.UserName}】有剩余助力机会，开始助力作者\n`)
-      for (let j = 0; j < $.authorMyShareIds.length && $.canHelp; j++) {
-        console.log(`【${$.UserName}】去助力作者的邀请码：${$.authorMyShareIds[j]}`);
-        $.max = false;
-        await enrollFriend($.authorMyShareIds[j]);
-        await $.wait(5000);
-        if ($.max) {
-          $.authorMyShareIds.splice(j, 1)
-          j--
-          continue
-        }
       }
     }
   }
