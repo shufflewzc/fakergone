@@ -125,7 +125,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 	console.log(`开始发送通知...`);
 	try {
 		//Reset 变量
-
+		console.log("通知标题: "+text);
 		UseGroup2 = false;
 		strTitle = "";
 		GOBOT_URL = '';
@@ -219,6 +219,9 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			} else {
 				strTitle = "东东萌宠";
 			}
+		}
+		if (text.indexOf("汪汪乐园养joy") != -1) {			
+			strTitle = "汪汪乐园养joy";			
 		}
 
 		if (text == "京喜工厂") {
@@ -868,57 +871,45 @@ function ddBotNotify(text, desp) {
 }
 
 function qywxBotNotify(text, desp) {
-	function send(text) {
-		return new Promise((resolve) => {
-			const options = {
-				url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${QYWX_KEY}`,
-				json: {
-					msgtype: 'text',
-					text: {
-						content: text,
-					},
+	return new Promise((resolve) => {
+		const options = {
+			url: `https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=${QYWX_KEY}`,
+			json: {
+				msgtype: 'text',
+				text: {
+					content: ` ${text}\n\n${desp}`,
 				},
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				timeout,
-			};
-			if (QYWX_KEY) {
-				$.post(options, (err, resp, data) => {
-					try {
-						if (err) {
-							console.log('企业微信发送通知消息失败！！\n');
-							console.log(err);
+			},
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			timeout,
+		};
+		if (QYWX_KEY) {
+			$.post(options, (err, resp, data) => {
+				try {
+					if (err) {
+						console.log('企业微信发送通知消息失败！！\n');
+						console.log(err);
+					} else {
+						data = JSON.parse(data);
+						if (data.errcode === 0) {
+							console.log('企业微信发送通知消息成功🎉。\n');
 						} else {
-							data = JSON.parse(data);
-							if (data.errcode === 0) {
-								console.log('企业微信发送通知消息成功🎉。\n');
-							} else {
-								console.log(`${data.errmsg}\n`);
-							}
+							console.log(`${data.errmsg}\n`);
 						}
-					} catch (e) {
-						$.logErr(e, resp);
 					}
-					finally {
-						resolve(data);
-					}
-				});
-			} else {
-				resolve();
-			}
-		});
-	}
-
-	let content = `${text}\n\n${desp}`;
-	const count = content % 5120;
-	const arrayToSend = [];
-	for (let i = 0; i < count; i++) {
-		arrayToSend.push(
-			content.substr(5120 * i, 5120 * (i + 1))
-		)
-	}
-	return Promise.all(arrayToSend.map(v => send(v)))
+				} catch (e) {
+					$.logErr(e, resp);
+				}
+				finally {
+					resolve(data);
+				}
+			});
+		} else {
+			resolve();
+		}
+	});
 }
 
 function ChangeUserId(desp) {
@@ -1240,7 +1231,7 @@ function GetnickName2() {
 						}
 						const userInfo = data.user;
 						if (userInfo) {
-							$.nickName = userInfo.unickName;
+							$.nickName = userInfo.petName;
 						}
 					} else {
 						$.log('京东服务器返回空数据');
