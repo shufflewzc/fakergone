@@ -81,8 +81,8 @@ let token ='';
   $.shareCode = []
   // await getShareCode('jxmc.json')
   let newCookiesArr = [];
-  for(let i = 0;i<$.helpCkList.length;i++){
-    newCookiesArr.push($.helpCkList)
+  for(let i = 0;i<$.helpCkList.length;i+=5){
+    newCookiesArr.push($.helpCkList.slice(i,i+5))
   }
   for (let i = 0; i < newCookiesArr.length; i++) {
     let thisCookiesArr = newCookiesArr[i];
