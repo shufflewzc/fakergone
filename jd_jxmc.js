@@ -111,7 +111,7 @@ let token ='';
         }else{
           console.log(`\n${$.UserName}去助力${codeList[k].name},助力码：${codeList[k].code}\n`);
           await takeGetRequest('help');
-          await $.wait(2000);
+          await $.wait(3000);
         }
       }
     }
