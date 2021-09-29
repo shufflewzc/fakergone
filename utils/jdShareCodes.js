@@ -57,7 +57,7 @@ for (let i = 0; i < lines.length; i++) {
     shareCodesMap.JD_CASH_SHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('闪购盲盒')) {
     shareCodesMap.JDSGMH_SHARECODES.push(lines[i].split('】')[1].trim());
-  } else if (lines[i].includes('摇钱树')) {
+  } else if (lines[i].includes('金果摇钱树')) {
     shareCodesMap.MONEYTREE_SHARECODES.push(lines[i].split('】')[1].trim());
   } 
 }
