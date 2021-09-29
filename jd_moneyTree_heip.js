@@ -194,13 +194,7 @@ function requireConfig() {
     $.shareCodesArr = [];
     if ($.isNode()) {
       //自定义助力码
-      if (process.env.MONEYTREE_SHARECODES) {
-        if (process.env.MONEYTREE_SHARECODES.indexOf('\n') > -1) {
-          shareCodes = process.env.MONEYTREE_SHARECODES.split('\n');
-        } else {
-          shareCodes = process.env.MONEYTREE_SHARECODES.split('&');
-        }
-      }
+      const shareCodes = $.isNode() ? require('./jdMoneyTreeShareCodes.js') : {};
       Object.keys(shareCodes).forEach((item) => {
         if (shareCodes[item]) {
           $.shareCodesArr.push(shareCodes[item])

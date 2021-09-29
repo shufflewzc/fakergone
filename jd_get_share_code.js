@@ -683,7 +683,7 @@ function getMoneyTree() {
               if (res.resultData.data) {
                 userInfo = res.resultData.data;
                 if (userInfo.realName) {
-                  console.log(`【京东账号${$.index}（${$.UserName}）的摇钱树好友互助码】${userInfo.sharePin}`);
+                  console.log(`【京东账号${$.index}（${$.UserName}）摇钱树】${userInfo.sharePin}`);
                 } else {
                   $.log(`京东账号${$.index}${$.UserName}运行失败\n此账号未实名认证或者未参与过此活动\n①如未参与活动,请先去京东app参加摇钱树活动\n入口：我的->游戏与互动->查看更多\n②如未实名认证,请进行实名认证`)
                 }

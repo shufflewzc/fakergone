@@ -12,6 +12,7 @@ exports.PETSHARECODES = [];
 exports.JDJOY_SHARECODES = [];
 exports.JDSGMH_SHARECODES = [];
 exports.JD_CASH_SHARECODES = [];
+exports.MONEYTREE_SHARECODES = [];
 
 
 let fileContent = '';
@@ -35,6 +36,7 @@ let shareCodesMap = {
   "JDJOY_SHARECODES": [],
   "JD_CASH_SHARECODES": [],
   "JDSGMH_SHARECODES": [],
+  "MONEYTREE_SHARECODES": [],
 };
 for (let i = 0; i < lines.length; i++) {
   if (lines[i].includes('京东赚赚')) {
@@ -55,7 +57,9 @@ for (let i = 0; i < lines.length; i++) {
     shareCodesMap.JD_CASH_SHARECODES.push(lines[i].split('】')[1].trim());
   } else if (lines[i].includes('闪购盲盒')) {
     shareCodesMap.JDSGMH_SHARECODES.push(lines[i].split('】')[1].trim());
-  }
+  } else if (lines[i].includes('摇钱树')) {
+    shareCodesMap.MONEYTREE_SHARECODES.push(lines[i].split('】')[1].trim());
+  } 
 }
 for (let key in shareCodesMap) {
   shareCodesMap[key] = shareCodesMap[key].reduce((prev, cur) => prev.includes(cur) ? prev : [...prev, cur], []); // 去重
