@@ -645,6 +645,65 @@ function getJdCash() {
     })
   })
 }
+// 摇钱树
+function getMoneyTree() {
+
+  const JD_MONEY_TREE_API_HOST = 'https://ms.jr.jd.com/gw/generic/uc/h5/m';
+  function taskurl(function_id, body) {
+    return {
+      url: JD_MONEY_TREE_API_HOST + '/' + function_id + '?_=' + new Date().getTime() * 1000,
+      body: `reqData=${function_id === 'login' || function_id === 'signIndex' ? encodeURIComponent(JSON.stringify(body)) : JSON.stringify(body)}`,
+      headers: {
+        'Accept': `application/json`,
+        'Origin': `https://uua.jr.jd.com`,
+        'Accept-Encoding': `gzip, deflate, br`,
+        'Cookie': cookie,
+        'Content-Type': `application/x-www-form-urlencoded;charset=UTF-8`,
+        'Host': `ms.jr.jd.com`,
+        'Connection': `keep-alive`,
+        'User-Agent': $.isNode() ? (process.env.JD_USER_AGENT ? process.env.JD_USER_AGENT : (require('./USER_AGENTS').USER_AGENT)) : ($.getdata('JDUA') ? $.getdata('JDUA') : "jdapp;iPhone;9.4.4;14.3;network/4g;Mozilla/5.0 (iPhone; CPU iPhone OS 14_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148;supportJDSHWK/1"),
+        'Referer': `https://uua.jr.jd.com/uc-fe-wxgrowing/moneytree/index`,
+        'Accept-Language': `zh-cn`
+      }
+    }
+  }
+  const params = { "sharePin": "", "shareType": 1, "channelLV": "", "source": 2, "riskDeviceParam": { "eid": "", "fp": "", "sdkToken": "", "token": "", "jstub": "", "appType": "2", } }
+  params.riskDeviceParam = JSON.stringify(params.riskDeviceParam);
+  return new Promise((resolve, reject) => {
+    $.post(taskurl('login', params), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log("\n摇钱树京东API请求失败 ‼️‼️")
+          console.log(JSON.stringify(err));
+        } else {
+          if (data) {
+            const res = JSON.parse(data);
+            if (res && res.resultCode === 0) {
+              $.isLogin = true;
+              if (res.resultData.data) {
+                userInfo = res.resultData.data;
+                if (userInfo.realName) {
+                  console.log(`【京东账号${$.index}（${$.UserName}）的摇钱树好友互助码】${userInfo.sharePin}`);
+                } else {
+                  $.log(`京东账号${$.index}${$.UserName}运行失败\n此账号未实名认证或者未参与过此活动\n①如未参与活动,请先去京东app参加摇钱树活动\n入口：我的->游戏与互动->查看更多\n②如未实名认证,请进行实名认证`)
+                }
+              }
+            } else {
+              console.log(`其他情况::${JSON.stringify(res)}`);
+            }
+          } else {
+            console.log(`京东api返回数据为空，请检查自身原因`)
+          }
+        }
+      } catch (eor) {
+        $.logErr(eor, err)
+      } finally {
+        resolve(userInfo)
+      }
+    })
+  })
+}
+
 async function getShareCode() {
   console.log(`======账号${$.index}开始======`)
   await getJDFruit()
@@ -658,6 +717,7 @@ async function getShareCode() {
   await getSgmh()
   // await getCFD()
   await getJdCash()
+  await getMoneyTree()
   console.log(`======账号${$.index}结束======\n`)
 }
 
