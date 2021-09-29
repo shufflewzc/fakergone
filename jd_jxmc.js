@@ -74,7 +74,7 @@ let token ='';
       }
       console.log(`\n${$.UserName}去助力${$.oneCodeInfo.use},助力码：${$.oneCodeInfo.code}\n`);
       await takeGetRequest('help_hb');
-      await $.wait(2000);
+      await $.wait(5000);
     }
   }
   console.log('\n##################开始账号内互助#################\n');
@@ -111,7 +111,7 @@ let token ='';
         }else{
           console.log(`\n${$.UserName}去助力${codeList[k].name},助力码：${codeList[k].code}\n`);
           await takeGetRequest('help');
-          await $.wait(3000);
+          await $.wait(5000);
         }
       }
     }
