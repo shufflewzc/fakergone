@@ -27,26 +27,8 @@ let num=0
 let shopname=''
 
 const token=[
-    'F985BDEBFD5CF232225941FC7D75DBC6',//5天100京豆09-26；
-    'DA47E006D6B4A211C2C6525DC82F8EDC',//5天50京豆09-26；
-    '98CCFA28021D0623A6835480228862D5',//2-3天70京豆；
-    '9133123518A9C372D79D54407C5DF0F9',//15天100京豆；
-    'B633CA47876BC61E7F639EBED79DDF34',//3天20京豆；
-    'D92B26255A899BF4DD32B80196EB8934',
-    '10B6286F445A9F94C356B35469DB9A4D',
-    '5C1B739656B358743D816EAE714C83F3',
-    "FAC8EFA459B45C8208817F11C313C05D", 
-    '1D9BC39B71C4DF268D034D4DC78B81D3',
-    '3D99640B8E65273658E3A21908FFEC4C',
-    '261F616B5F721EFB1E112D6A1FA69BE1',
-    '94E9660F7E513526BE90DAE600414C03',
-    '9944E3E6476F61BEF9D4107210D24D55',
-    'D48CC0BF38018BFBD65E495201A160C6',
-    'C1B43EE810DF7CF9BCD82256690AD16B',
-    '0FD7C0E275B44718D79AD02D0D73770F',
-    'FEFF64118D0FB5D049763864E46ACBA3',
     'EBAA272399094FA03629BF1A6D1410EC',
-    'CEDDE5C4517E0F402FD4B9A62B1F22D6',
+    'C94665237515D09F20DBF0A930A5AF5D',		//今世缘酒类旗舰店
 ]
 //IOS等用户直接用NobyDa的jd cookie
 
@@ -229,12 +211,15 @@ function getActivityInfo(token,venderId) {
           activityId=data.data.id
           //console.log(data)
           let mes='';
+          let startTime=data.data.startTime;
+          let endTime=data.data.endTime;
+          mes += "活动时间:"+getLocalTime(startTime)+"—"+getLocalTime(endTime);
           for (let i = 0; i < data.data.continuePrizeRuleList.length; i++) {
             const level=data.data.continuePrizeRuleList[i].level
             const discount=data.data.continuePrizeRuleList[i].prizeList[0].discount
             mes += "签到"+level+"天,获得"+discount+'豆'
           }
-          //console.log(message+mes+'\n')
+          console.log(mes)
           //message += mes+'\n'
         }
       } catch (e) {
@@ -244,6 +229,10 @@ function getActivityInfo(token,venderId) {
       }
     })
   })
+}
+
+function getLocalTime(nS) {     
+   return new Date(parseInt(nS)).toLocaleString();
 }
 
 //店铺签到
