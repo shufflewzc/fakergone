@@ -92,27 +92,27 @@ if ($.isNode()) {
       await jdDreamFactory()
     }
   }
-  if (tuanActiveId) {
-    for (let i = 0; i < cookiesArr.length; i++) {
-      if (cookiesArr[i]) {
-        cookie = cookiesArr[i];
-        $.isLogin = true;
-        $.canHelp = true;//能否参团
-        $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
+  // if (tuanActiveId) {
+  //   for (let i = 0; i < cookiesArr.length; i++) {
+  //     if (cookiesArr[i]) {
+  //       cookie = cookiesArr[i];
+  //       $.isLogin = true;
+  //       $.canHelp = true;//能否参团
+  //       $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1])
 
-        if ((cookiesArr && cookiesArr.length >= ($.tuanNum || 5)) && $.canHelp) {
-          console.log(`\n账号${$.UserName} 内部相互进团\n`);
-          for (let item of $.tuanIds) {
-            console.log(`\n${$.UserName} 去参加团 ${item}`);
-            if (!$.canHelp) break;
-            await JoinTuan(item);
-            await $.wait(1000);
-          }
-        }
-        // if ($.canHelp) await joinLeaderTuan();//参团
-      }
-    }
-  }
+  //       if ((cookiesArr && cookiesArr.length >= ($.tuanNum || 5)) && $.canHelp) {
+  //         console.log(`\n账号${$.UserName} 内部相互进团\n`);
+  //         for (let item of $.tuanIds) {
+  //           console.log(`\n${$.UserName} 去参加团 ${item}`);
+  //           if (!$.canHelp) break;
+  //           await JoinTuan(item);
+  //           await $.wait(1000);
+  //         }
+  //       }
+  //       // if ($.canHelp) await joinLeaderTuan();//参团
+  //     }
+  //   }
+  // }
   if ($.isNode() && allMessage) {
     await notify.sendNotify(`${$.name}`, `${allMessage}`, { url: jxOpenUrl })
   }
