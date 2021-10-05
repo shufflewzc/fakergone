@@ -681,6 +681,12 @@ function invite2() {
     "wXX9SjXOdYMWe5Ru/1+x9A==",
     "mCvmrmFghpDCLcL3VZs53BkAhucziHAYn3HhPmURJJE="
   ][Math.floor((Math.random() * 5))]
+
+  const temp = getInviteByEnv();
+  if (temp) {
+    inviterId = temp;
+  }
+
   let headers = {
     'Host': 'api.m.jd.com',
     'accept': 'application/json, text/plain, */*',
@@ -711,6 +717,12 @@ function invite() {
     "jbGBRBPo5DmwB9ntTCSVOGXuh1YQyccCuZpWwb3PlIc=",
     "wXX9SjXOdYMWe5Ru/1+x9A=="
   ][Math.floor((Math.random() * 3))]
+
+  const temp = getInviteByEnv();
+  if (temp) {
+    inviterId = temp;
+  }
+
   var headers = {
     'Host': 'api.m.jd.com',
     'accept': 'application/json, text/plain, */*',
@@ -731,6 +743,12 @@ function invite() {
   $.post(options, (err, resp, data) => {
     // console.log(data)
   })
+}
+
+function getInviteByEnv() {
+  if (process.env.JD_SPEED_INVITE) {
+    return process.env.JD_SPEED_INVITE;
+  }
 }
 
 function TotalBean() {
