@@ -57,21 +57,15 @@ if (process.env.JD_FINANCE_BODY) {
         console.log("必需填写环境变量JD_FINANCE_BODY,多个账号使用&隔开,脚本才能正常运行!");
         return;
     }
-
-    console.log('\n##################开始京东金融签到#################\n');
-
     for (let i = 0; i < jdFinancdBody.length; i++) {
         const body = jdFinancdBody[i];
         const cookie = cookiesArr[i];
         await checkIn(cookie, body);
-        if (i === jdFinancdBody.length -  1 || i === cookiesArr.length -  1) {
+        if (i === jdFinancdBody.length - 1 || i === cookiesArr.length - 1) {
             return;
         }
         await $.wait(2000);
     }
-
-    console.log('\n##################结束京东金融签到#################\n');
-
 })()
     .catch((e) => $.logErr(e))
     .finally(() => $.done())
@@ -110,11 +104,11 @@ async function checkIn(cookie, body) {
                 if (result.resultData && result.resultData.resBusiMsg) {
                     console.log(`${userName}京东金融签到${result.resultData.resBusiMsg}`);
                 } else {
-                    await notify.sendNotify(`${$.UserName}`, `京东金融签到失败`);
+                    await notify.sendNotify(`${userName}`, `京东金融签到失败`);
                 }
             } catch (e) {
                 console.log(data);
-                await notify.sendNotify(`${$.UserName}`, `京东金融签到失败`);
+                await notify.sendNotify(`${userName}`, `京东金融签到失败`);
                 $.logErr(e, resp)
             } finally {
                 resolve();
