@@ -717,12 +717,10 @@ function invite() {
     "jbGBRBPo5DmwB9ntTCSVOGXuh1YQyccCuZpWwb3PlIc=",
     "wXX9SjXOdYMWe5Ru/1+x9A=="
   ][Math.floor((Math.random() * 3))]
-
   const temp = getInviteByEnv();
   if (temp) {
     inviterId = temp;
   }
-
   var headers = {
     'Host': 'api.m.jd.com',
     'accept': 'application/json, text/plain, */*',
