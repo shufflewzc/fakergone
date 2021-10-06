@@ -60,9 +60,10 @@ if (process.env.JD_FINANCE_BODY) {
     for (let i = 0; i < jdFinancdBody.length; i++) {
         const body = jdFinancdBody[i];
         const cookie = cookiesArr[i];
-        const success = await checkIn(cookie, body);
+        const username = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+        const success = await checkIn(cookie, body, username);
         if (!success) {
-            await notify.sendNotify(`${userName}`, `京东金融签到失败`);
+            await notify.sendNotify(`${username}`, `京东金融签到失败`);
         }
         if (i === jdFinancdBody.length - 1 || i === cookiesArr.length - 1) {
             return;
@@ -79,7 +80,7 @@ if (process.env.JD_FINANCE_BODY) {
  * @param {String} cookie
  * @param {String} body 京东金融签到时抓取
  */
-async function checkIn(cookie, body) {
+async function checkIn(cookie, body, username) {
 
     const options = {
         'method': 'POST',
@@ -97,8 +98,6 @@ async function checkIn(cookie, body) {
         body: body
     };
 
-    const userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
-
     return new Promise(async resolve => {
 
         request(options, (error, response, data) => {
@@ -107,7 +106,7 @@ async function checkIn(cookie, body) {
                 const result = JSON.parse(data);
                 if (result.resultData && result.resultData.resBusiMsg && result.resultData.resBusiCode === 0) {
                     success = true
-                    console.log(`${userName}-京东金融签到${result.resultData.resBusiMsg}`);
+                    console.log(`${username}-京东金融签到${result.resultData.resBusiMsg}`);
                 }
             } catch (e) {
                 console.log(data);
