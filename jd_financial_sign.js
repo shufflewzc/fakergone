@@ -26,51 +26,104 @@ cron "1 0 * * *" script-path=jd_financial_sign.js,tag=京东金融签到
 //增加变量永远通知CK状态:  export CKALWAYSNOTIFY="true"
 const $ = new Env('京东金融签到');
 const request = require('request');
+const notify = $.isNode() ? require('./sendNotify') : '';
+const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
+let cookiesArr = [];
+if ($.isNode()) {
+    Object.keys(jdCookieNode).forEach((item) => {
+        cookiesArr.push(jdCookieNode[item])
+    })
+    if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
+} else {
+    cookiesArr = [
+        $.getdata("CookieJD"),
+        $.getdata("CookieJD2"),
+        ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
+}
 
-let jdFinancdBody = "",
-    jdFinancdCk = "";
-	
+let jdFinancdBody = [];
 if (process.env.JD_FINANCE_BODY) {
-    jdFinancdBody = process.env.JD_FINANCE_BODY;
-}
-if (process.env.JD_FINANCE_CK) {
-    jdFinancdCk = process.env.JD_FINANCE_CK;
+    jdFinancdBody = process.env.JD_FINANCE_BODY.split('&');
 }
 
-!(async() => {
+!(async () => {
 
-    if (!jdFinancdBody || !jdFinancdCk) {
-        console.log("必需填写环境变量JD_FINANCE_BODY与JD_FINANCE_CK,脚本才能正常运行!");
+    if (!cookiesArr[0]) {
+        $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
 
-    const options = {
-    'method': 'POST',
-    'url': 'https://ms.jr.jd.com/gw/generic/hy/h5/m/appSign?_=1631861657697',
-    'headers': {
-        'Host': 'ms.jr.jd.com',
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'Origin': 'https://member.jr.jd.com',
-        'Cookie': jdFinancdCk,
-        'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/application=JDJR-App&deviceId=7334830353036493d203445483d243441314-d224239323d2449353336464230314543454&eufv=1&clientType=ios&iosType=iphone&clientVersion=6.2.10&HiClVersion=6.2.10&isUpdate=0&osVersion=14.6&osName=iOS&platform=iPhone11,8&screen=812*375&src=App Store&netWork=1&netWorkType=1&CpayJS=UnionPay/1.0 JDJR&stockSDK=stocksdk-iphone_3.5.0&sPoint=&jdPay=(*#@jdPaySDK*#@jdPayChannel=jdfinance&jdPayChannelVersion=6.2.10&jdPaySdkVersion=4.00.03.00&jdPayClientName=iOS*#@jdPaySDK*#@)',
-        'Referer': 'https://member.jr.jd.com/activities/sign/v5/indexV2.html?channel=sy&channelLv=sy&jrcontainer=h5&jrlogin=true',
-        'Accept-Language': 'zh-cn'
-    },
-    body: jdFinancdBody
-    };
-    request(options, function (error, response) {
-        if (error) throw new Error(error);
-        if (response.body && response.body.resultData && response.body.resultData.resBusiMsg) {
-            console.log(response.body.resultData.resBusiMsg);
-        } else {
-            console.log(response.body);
+    if (!jdFinancdBody || jdFinancdBody.length === 0) {
+        console.log("必需填写环境变量JD_FINANCE_BODY,多个账号使用&隔开,脚本才能正常运行!");
+        return;
+    }
+
+    console.log('\n##################开始京东金融签到#################\n');
+
+    for (let i = 0; i < jdFinancdBody.length; i++) {
+        const body = jdFinancdBody[i];
+        const cookie = cookiesArr[i];
+        await checkIn(cookie, body);
+        if (i === jdFinancdBody.length -  1 || i === cookiesArr.length -  1) {
+            return;
         }
-    });
+        await $.wait(2000);
+    }
+
+    console.log('\n##################结束京东金融签到#################\n');
 
 })()
-.catch((e) => $.logErr(e))
+    .catch((e) => $.logErr(e))
     .finally(() => $.done())
+
+/**
+ * 签到
+ * 
+ * @param {String} cookie
+ * @param {String} body 京东金融签到时抓取
+ */
+async function checkIn(cookie, body) {
+
+    const options = {
+        'method': 'POST',
+        'url': 'https://ms.jr.jd.com/gw/generic/hy/h5/m/appSign?_=1631861657697',
+        'headers': {
+            'Host': 'ms.jr.jd.com',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+            'Origin': 'https://member.jr.jd.com',
+            'Cookie': cookie,
+            'Accept': 'application/json',
+            'User-Agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148/application=JDJR-App&deviceId=7334830353036493d203445483d243441314-d224239323d2449353336464230314543454&eufv=1&clientType=ios&iosType=iphone&clientVersion=6.2.10&HiClVersion=6.2.10&isUpdate=0&osVersion=14.6&osName=iOS&platform=iPhone11,8&screen=812*375&src=App Store&netWork=1&netWorkType=1&CpayJS=UnionPay/1.0 JDJR&stockSDK=stocksdk-iphone_3.5.0&sPoint=&jdPay=(*#@jdPaySDK*#@jdPayChannel=jdfinance&jdPayChannelVersion=6.2.10&jdPaySdkVersion=4.00.03.00&jdPayClientName=iOS*#@jdPaySDK*#@)',
+            'Referer': 'https://member.jr.jd.com/activities/sign/v5/indexV2.html?channel=sy&channelLv=sy&jrcontainer=h5&jrlogin=true',
+            'Accept-Language': 'zh-cn'
+        },
+        body: body
+    };
+
+    const userName = decodeURIComponent(cookie.match(/pt_pin=(.+?);/) && cookie.match(/pt_pin=(.+?);/)[1])
+
+    return new Promise(async resolve => {
+
+        request(options, (error, response, data) => {
+            try {
+                const result = JSON.parse(data);
+                if (result.resultData && result.resultData.resBusiMsg) {
+                    console.log(`${userName}京东金融签到${result.resultData.resBusiMsg}`);
+                } else {
+                    await notify.sendNotify(`${$.UserName}`, `京东金融签到失败`);
+                }
+            } catch (e) {
+                console.log(data);
+                await notify.sendNotify(`${$.UserName}`, `京东金融签到失败`);
+                $.logErr(e, resp)
+            } finally {
+                resolve();
+            }
+        });
+    })
+
+
+}
 
 // prettier-ignore
 function Env(t, e) {
@@ -132,7 +185,7 @@ function Env(t, e) {
             const i = this.getdata(t);
             if (i) try {
                 s = JSON.parse(this.getdata(t))
-            } catch {}
+            } catch { }
             return s
         }
         setjson(t, e) {
@@ -244,7 +297,7 @@ function Env(t, e) {
         initGotEnv(t) {
             this.got = this.got ? this.got : require("got"), this.cktough = this.cktough ? this.cktough : require("tough-cookie"), this.ckjar = this.ckjar ? this.ckjar : new this.cktough.CookieJar, t && (t.headers = t.headers ? t.headers : {}, void 0 === t.headers.Cookie && void 0 === t.cookieJar && (t.cookieJar = this.ckjar))
         }
-        get(t, e = (() => {})) {
+        get(t, e = (() => { })) {
             t.headers && (delete t.headers["Content-Type"], delete t.headers["Content-Length"]), this.isSurge() || this.isLoon() ? (this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
                 "X-Surge-Skip-Scripting": !1
             })), $httpClient.get(t, (t, s, i) => {
@@ -294,7 +347,7 @@ function Env(t, e) {
                 e(s, i, i && i.body)
             }))
         }
-        post(t, e = (() => {})) {
+        post(t, e = (() => { })) {
             if (t.body && t.headers && !t.headers["Content-Type"] && (t.headers["Content-Type"] = "application/x-www-form-urlencoded"), t.headers && delete t.headers["Content-Length"], this.isSurge() || this.isLoon()) this.isSurge() && this.isNeedRewrite && (t.headers = t.headers || {}, Object.assign(t.headers, {
                 "X-Surge-Skip-Scripting": !1
             })), $httpClient.post(t, (t, s, i) => {
