@@ -105,9 +105,9 @@ async function checkIn(cookie, body) {
             let success = false;
             try {
                 const result = JSON.parse(data);
-                if (result.resultData && result.resultData.resBusiMsg) {
+                if (result.resultData && result.resultData.resBusiMsg && result.resultData.resBusiCode === 0) {
                     success = true
-                    console.log(`${userName}京东金融签到${result.resultData.resBusiMsg}`);
+                    console.log(`${userName}-京东金融签到${result.resultData.resBusiMsg}`);
                 }
             } catch (e) {
                 console.log(data);
