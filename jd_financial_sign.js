@@ -22,8 +22,7 @@ cron "1 0 * * *" script-path=jd_financial_sign.js,tag=京东金融签到
 
 //financial sign by xumf
 //Update : 20210918
-//增加变量显示正常CK:  export JD_FINANCE_BODY="true"
-//增加变量永远通知CK状态:  export CKALWAYSNOTIFY="true"
+//增加变量JD_FINANCE_BODY:  export JD_FINANCE_BODY="reqData=......&reqData=......" https://ms.jr.jd.com/gw/generic/hy/h5/m/appSign 接口抓取 reqData参数，&间隔多账号
 const $ = new Env('京东金融签到');
 const request = require('request');
 const notify = $.isNode() ? require('./sendNotify') : '';
@@ -107,6 +106,8 @@ async function checkIn(cookie, body, username) {
                 if (result.resultData && result.resultData.resBusiMsg && result.resultData.resBusiCode === 0) {
                     success = true
                     console.log(`${username}-京东金融签到${result.resultData.resBusiMsg}`);
+                } else {
+                    console.log(`${username}-京东金融签到失败：${result}`);
                 }
             } catch (e) {
                 console.log(data);
