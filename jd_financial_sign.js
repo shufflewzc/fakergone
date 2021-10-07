@@ -107,7 +107,7 @@ async function checkIn(cookie, body, username) {
                     success = true
                     console.log(`${username}-京东金融签到${result.resultData.resBusiMsg}`);
                 } else {
-                    console.log(`${username}-京东金融签到失败：${result}`);
+                    console.log(`${username}-京东金融签到失败：${data}`);
                 }
             } catch (e) {
                 console.log(data);
