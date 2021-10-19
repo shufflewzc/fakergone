@@ -615,20 +615,6 @@ function dealReturn(type, data) {
         console.log(`签到成功`);
       }
       break;
-<<<<<<< HEAD
-    case 'GetInviteStatus':
-        if (data.ret === 0) {
-            if(data.data.sharekey){
-                console.log(`红包邀请码:${data.data.sharekey}`);
-                $.inviteCodeList_hb.push({'use':$.UserName,'code':data.data.sharekey,'max':false});
-            }
-        }
-        else if (data.ret === 2704) {
-          console.log(`奖品己发完`);
-        } 
-        else {
-            console.log(`异常：${JSON.stringify(data)}\n`);
-=======
     case 'DoMainTask':
       data = JSON.parse(data.match(new RegExp(/jsonpCBK.?\((.*);*/))[1]);
       if (data.ret === 0) {
@@ -650,7 +636,6 @@ function dealReturn(type, data) {
           console.log(`抽奖获得：${data.data.addcoins}金币`)
         } else {
           console.log(`抽奖获得：${JSON.stringify(data)}`)
->>>>>>> upstream/main
         }
       }
       break;
