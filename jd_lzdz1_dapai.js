@@ -176,9 +176,9 @@ function task(function_id, body, isCommon = 0, own = 0) {
                                     if (!data.data.hasEnd) {
                                         $.log(`开启【${data.data.activityName}】活动`)
                                         $.log("-------------------")
+                                        console.log(data.data.actorUuid)
                                         if ($.index === 1) {
                                             ownCode = data.data.actorUuid
-                                            console.log(ownCode)
                                         }
                                         $.actorUuid = data.data.actorUuid;
                                         $.skuTask = data.data.addSku;
