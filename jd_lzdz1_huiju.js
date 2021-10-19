@@ -186,6 +186,7 @@ function task(function_id, body, isCommon = 0, own = 0) {
                                     if (!data.data.hasEnd) {
                                         $.log(`开启【${data.data.activity['name']}】活动`)
                                         $.log("-------------------")
+                                        console.log(data.data.actor['actorUuid'])
                                         if ($.index === 1) {
                                             ownCode = data.data.actor['actorUuid']
                                             console.log(ownCode)
