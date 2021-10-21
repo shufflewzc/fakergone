@@ -242,57 +242,28 @@ function getInfo(inviteId, flag = false) {
 function receiveCash(roundNum = '') {
   let body = {"cashType":2}
   if(roundNum) body = {"cashType":1,"roundNum":roundNum}
+  if(roundNum == -1) body = {"cashType":4}
   return new Promise((resolve) => {
-    let body;
-    switch (type) {
-      case 1:
-        body = {"cashType":1,"roundNum":roundNum}
-        $.post(taskPostUrl("city_receiveCash", body), async (err, resp, data) => {
-          try {
-            if (err) {
-              console.log(`${JSON.stringify(err)}`)
-              console.log(`${$.name} API请求失败，请检查网路重试`)
-            } else {
-              if (safeGet(data)) {
-                console.log(`领红包结果${data}`);
-                data = JSON.parse(data);
-                if (data['data']['bizCode'] === 0) {
-                  console.log(`获得 ${data.data.result.currentTimeCash} 元，共计 ${data.data.result.totalCash} 元`)
-                }
-              }
+    $.post(taskPostUrl("city_receiveCash",body), async (err, resp, data) => {
+      try {
+        if (err) {
+          console.log(`${JSON.stringify(err)}`)
+          console.log(`${$.name} API请求失败，请检查网路重试`)
+        } else {
+          if (safeGet(data)) {
+            console.log(`领红包结果${data}`);
+            data = JSON.parse(data);
+            if (data['data']['bizCode'] === 0) {
+              console.log(`获得 ${data.data.result.currentTimeCash} 元，共计 ${data.data.result.totalCash} 元`)
             }
-          } catch (e) {
-            $.logErr(e, resp)
-          } finally {
-            resolve(data);
           }
-        })
-        break;
-      case 2:
-        body = {"cashType":"4"}
-        $.post(taskPostUrl("city_receiveCash", body), async (err, resp, data) => {
-          try {
-            if (err) {
-              console.log(`${JSON.stringify(err)}`)
-              console.log(`${$.name} API请求失败，请检查网路重试`)
-            } else {
-              if (safeGet(data)) {
-                data = JSON.parse(data);
-                if (data['data']['bizCode'] === 0) {
-                  console.log(`领取赏金 ${data.data.result.currentTimeCash} 元，共计 ${data.data.result.totalCash} 元`)
-                }
-              }
-            }
-          } catch (e) {
-            $.logErr(e, resp)
-          } finally {
-            resolve(data);
-          }
-        })
-        break;
-      default:
-        break;
-    }
+        }
+      } catch (e) {
+        $.logErr(e, resp)
+      } finally {
+        resolve(data);
+      }
+    })
   })
 }
 function getInviteInfo() {
@@ -307,6 +278,10 @@ function getInviteInfo() {
           if (safeGet(data)) {
             // console.log(data)
             data = JSON.parse(data);
+            if(data.data.result.masterData.actStatus == 2){
+              console.log('领取赚赏金')
+              await receiveCash(-1)
+            }
           }
         }
       } catch (e) {
@@ -343,40 +318,6 @@ function city_lotteryAward() {
     })
   })
 }
-function uploadShareCode(code) {
-  return new Promise(async resolve => {
-    $.post({url: `http://${randomString(40)}.transfer.nz.lu/upload/city?code=${code}&ptpin=${encodeURIComponent(encodeURIComponent($.UserName))}`, timeout: 10000}, (err, resp, data) => {
-      try {
-        if (err) {
-          console.log(JSON.stringify(err))
-          console.log(`${$.name} uploadShareCode API请求失败，请检查网路重试`)
-        } else {
-          if (data) {
-            if (data === 'OK') {
-              console.log(`已自动提交助力码\n`)
-            } else if (data === 'error') {
-              console.log(`助力码格式错误，乱玩API是要被打屁屁的~\n`)
-            } else if (data === 'full') {
-              console.log(`车位已满，请等待下一班次\n`)
-            } else if (data === 'exist') {
-              console.log(`助力码已经提交过了~\n`)
-            } else if (data === 'not in whitelist') {
-              console.log(`提交助力码失败，此用户不在白名单中\n`)
-            } else {
-              console.log(`未知错误：${data}\n`)
-            }
-          }
-        }
-      } catch (e) {
-        $.logErr(e, resp)
-      } finally {
-        resolve(data);
-      }
-    })
-    await $.wait(10000);
-    resolve()
-  })
-}
 function readShareCode() {
   console.log(`开始`)
   return new Promise(async resolve => {
@@ -409,14 +350,6 @@ function shareCodesFormat() {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
     }
     if($.index == 1) $.newShareCodes = [...inviteCodes,...$.newShareCodes]
-    // try{
-    //   const readShareCodeRes = await readShareCode();
-    //   if (readShareCodeRes && readShareCodeRes.code === 200) {
-    //     $.newShareCodes = [...new Set([...$.newShareCodes, ...(readShareCodeRes.data || [])])];
-    //   }
-    // } catch (e) {
-    //   console.log(e);
-    // }
     console.log(`第${$.index}个京东账号将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
