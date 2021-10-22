@@ -674,15 +674,9 @@ function taskGetUrl(function_id, body) {
 
 function invite2() {
   let t = +new Date()
-  let inviterId = [
-    "5V7vHE23qh2EkdBHXRFDuA==",
-    "4AVQao+eH8Q8kvmXnWmkG8ef/fNr5fdejnD9+9Ugbec=",
-    "jbGBRBPo5DmwB9ntTCSVOGXuh1YQyccCuZpWwb3PlIc=",
-    "wXX9SjXOdYMWe5Ru/1+x9A==",
-    "mCvmrmFghpDCLcL3VZs53BkAhucziHAYn3HhPmURJJE="
-  ][Math.floor((Math.random() * 5))]
+  let inviterId = []
 
-  const temp = getInviteByEnv();
+  const inviterId = getInviteByEnv();
   if (temp) {
     inviterId = temp;
   }
@@ -712,12 +706,8 @@ function invite2() {
 
 function invite() {
   let t = +new Date()
-  let inviterId = [
-    "5V7vHE23qh2EkdBHXRFDuA==",
-    "jbGBRBPo5DmwB9ntTCSVOGXuh1YQyccCuZpWwb3PlIc=",
-    "wXX9SjXOdYMWe5Ru/1+x9A=="
-  ][Math.floor((Math.random() * 3))]
-  const temp = getInviteByEnv();
+  let inviterId = []
+  const inviterId = getInviteByEnv();
   if (temp) {
     inviterId = temp;
   }
