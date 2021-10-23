@@ -32,12 +32,7 @@ if ($.isNode()) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
-    authorCodeList = await getAuthorCodeList('https://gitee.com/fatelight/dongge/raw/master/dongge/lzdz2_fashion.json')
-    if(authorCodeList === '404: Not Found'){
-        authorCodeList = [
-            'b3b3f59c9015493a9d8e2f1d5d9b92ea',
-        ]
-    }
+    authorCodeList = []
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i]
@@ -53,9 +48,6 @@ if ($.isNode()) {
                 console.log('更新ck');
                 continue
             }
-            // authorCodeList = [
-            //     'b3b3f59c9015493a9d8e2f1d5d9b92ea',
-            // ]
             $.bean = 0;
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
             $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
