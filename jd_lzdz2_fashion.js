@@ -3,21 +3,17 @@
 https://lzdz2-isv.isvjcloud.com/dingzhi/fashion/recruit/activity/13145?activityId=1ad06f0cb93e4928a894e3b984c2fa4b
 **/
 
-const $ = new Env("时尚宠粉趴");
+const $ = new Env("超店会员福利社");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '';
 let ownCode = null;
 let authorCodeList = []
-let RUSH = false;
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
     })
     if (process.env.JD_DEBUG && process.env.JD_DEBUG === 'false') console.log = () => { };
-    if (process.env.RUSH && process.env.RUSH != "") {
-        RUSH = process.env.RUSH;
-    }
 } else {
     let cookiesData = $.getdata('CookiesJD') || "[]";
     cookiesData = JSON.parse(cookiesData);
@@ -65,15 +61,10 @@ if ($.isNode()) {
             $.activityId = '1ad06f0cb93e4928a894e3b984c2fa4b'
             $.activityShopId = '59809'
             $.activityUrl = `https://lzdz2-isv.isvjcloud.com/dingzhi/fashion/recruit/activity/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=null&shopid=${$.activityShopId}&lng=00.000000&lat=00.000000&sid=&un_area=`
-            if (RUSH) {
-                await rush();
-                await $.wait(1000)
-                console.log("重复执行一次，技术有限不知道为什么")
-                await rush();
-            } else {
-                console.log("默认不开卡：请设置环境变量 RUSH = true")
-            }
-
+            await rush();
+            await $.wait(1000)
+            console.log("重复执行一次，技术有限不知道为什么")
+            await rush();
             if ($.bean > 0) {
                 message += `\n【京东账号${$.index}】${$.nickName || $.UserName} \n       └ 获得 ${$.bean} 京豆。`
             }
