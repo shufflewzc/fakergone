@@ -44,7 +44,6 @@ const JD_API_HOST = 'https://api.m.jd.com/api';
   }
   $.temp = [];
   $.updatePkActivityIdRes = [];
-  await requireConfig();
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
