@@ -1,12 +1,17 @@
 /*
 大牌联合  狂欢抢先GO
-https://lzdz1-isv.isvjcloud.com/dingzhi/dz/openCard/activity?activityId=dz20211013skcnurdk11jhdue84752hp&shareUuid=ec4b9f40e526489986657f3701ec1330
+10-23 ~ 10~29
+https://lzdz1-isv.isvjcloud.com/dingzhi/dz/openCard/activity?activityId=dz20211023wkcn14cn5cnd0sdbs5sbx&shareUuid=e4af9e2576f742518d31de9d38c34b14
+
+默认执行脚本。如果需要不执行
+环境变量 NO_RUSH=false
 */
 const $ = new Env("大牌联合  狂欢抢先GO");
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 let cookiesArr = [], cookie = '', message = '';
 let ownCode = null;
+let isRush = true;false
 if ($.isNode()) {
     Object.keys(jdCookieNode).forEach((item) => {
         cookiesArr.push(jdCookieNode[item])
@@ -20,6 +25,9 @@ if ($.isNode()) {
     cookiesArr.push(...[$.getdata('CookieJD2'), $.getdata('CookieJD')]);
     cookiesArr.reverse();
     cookiesArr = cookiesArr.filter(item => !!item);
+}
+if (process.env.NO_RUSH && process.env.NO_RUSH != "") {
+    isRush = process.env.NO_RUSH;
 }
 !(async () => {
     if (!cookiesArr[0]) {
@@ -54,10 +62,16 @@ if ($.isNode()) {
             $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
             $.authorNum = `${random(1000000, 9999999)}`
             $.randomCode = random(1000000, 9999999)
-            $.activityId = 'dz20211013skcnurdk11jhdue84752hp'
-            $.activityShopId = '1000004065'
+            $.activityId = 'dz20211023wkcn14cn5cnd0sdbs5sbx'
+            $.activityShopId = '1000387143'
             $.activityUrl = `https://lzdz1-isv.isvjd.com/dingzhi/dz/openCard/activity/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&shareuserid4minipg=null&shopid=${$.activityShopId}&lng=00.000000&lat=00.000000&sid=&un_area=`
-            await marry();
+            if (isRush) {
+                console.log("未检测到不执行环境变量，执行任务")
+                await rush();
+            } else {
+                console.log("检测到不执行环境变量，退出任务，环境变量 NO_RUSH")
+                break
+            }
             await $.wait(3000)
             if ($.bean > 0) {
                 message += `\n【京东账号${$.index}】${$.nickName || $.UserName} \n       └ 获得 ${$.bean} 京豆。`
@@ -80,8 +94,7 @@ if ($.isNode()) {
     })
 
 
-async function marry() {
-    $.log('那就开始吧。')
+async function rush() {
     $.token = null;
     $.secretPin = null;
     $.openCardActivityId = null
