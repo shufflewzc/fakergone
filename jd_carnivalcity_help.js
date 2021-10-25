@@ -276,7 +276,7 @@ function readShareCode() {
 //格式化助力码
 function shareCodesFormat() {
   return new Promise(async resolve => {
-    $.newShareCodes = [];
+    $.newShareCodes = $.shareCodes;
     console.log(`\n\n您将要助力的好友${JSON.stringify($.newShareCodes)}`)
     resolve();
   })
