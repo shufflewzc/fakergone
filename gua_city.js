@@ -87,6 +87,7 @@ $.shareCodesArr = [];
     uuid = UA.split(';')[4]
     await shareCodesFormat()
     let shareCodes;
+    const helpPool = false;
     if (helpPool) {
       shareCodes = [...new Set([...inviteCodes, ...$.readShareCode])]
     } else {
