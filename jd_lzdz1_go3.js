@@ -35,12 +35,7 @@ if (process.env.NO_RUSH && process.env.NO_RUSH != "") {
         return;
     }
     
-    authorCodeList = await getAuthorCodeList('https://gitee.com/fatelight/dongge/raw/master/dongge/lzdz1_go3.json')
-    if(authorCodeList === '404: Not Found'){
-        authorCodeList = [
-            'f0a85730507a4ebcbd28162be46fc8f6',
-        ]
-    }
+    authorCodeList = [];
 
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
