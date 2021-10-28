@@ -465,6 +465,7 @@ function shareCodesFormat() {
       }
     }
     if($.index == 1) $.newShareCodes = [...inviteCodes,...$.newShareCodes]
+    $.readShareCode = [];
     // try{
     //   const readShareCodeRes = await readShareCode();
     //   if (readShareCodeRes && readShareCodeRes.code === 200) {
