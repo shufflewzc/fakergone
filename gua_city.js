@@ -97,6 +97,7 @@ $.shareCodesArr = [];
         shareCodes = [...$.newShareCodes]
       }
     }
+    shareCodes = $.inviteIdCodesArr;
     for (let j = 0; j < shareCodes.length; j++) {
       console.log(helpPool ? `\n${$.UserName} 开始助力 助力池 【${shareCodes[j]}】` : i === 0 ? `\nCK1 ${$.UserName} 开始助力 助力池 【${shareCodes[j]}】` : `\n${$.UserName} 开始助力 【${shareCodes[j]}】`)
       await $.wait(1000)
