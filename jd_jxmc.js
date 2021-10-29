@@ -84,9 +84,8 @@ if ($.isNode()) {
     await $.wait(2000);
   }
   console.log('\n##################开始账号内互助#################\n');
-  let newCookiesArr = $.helpCkList;
-  for (let i = 0; i < newCookiesArr.length; i++) {
-    let thisCookiesArr = newCookiesArr[i];
+  for (let i = 0; i < cookiesArr.length; i++) {
+    let thisCookiesArr = cookiesArr;
     let codeList = [];
     for (let j = 0; j < thisCookiesArr.length; j++) {
       $.cookie = thisCookiesArr[j];
@@ -341,7 +340,9 @@ async function doTask(j) {
           if ("邀请好友助力养鸡" === $.oneTask.taskName) {
             outer:for (let i = 0; i <= 10; i++) {
               const resDate = await takeGetRequest('Award');
+              console.log("测试1" + JSON.stringify(resDate));
               const awardInfo = resDate.data;
+              console.log("测试" + JSON.stringify(awardInfo));
               if (awardInfo.awardStatus == 0 || "" === awardInfo.prizeInfo) {
                   break outer;
               }
