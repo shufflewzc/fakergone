@@ -84,10 +84,7 @@ if ($.isNode()) {
     await $.wait(2000);
   }
   console.log('\n##################开始账号内互助#################\n');
-  let newCookiesArr = [];
-  for(let i = 0; i < $.helpCkList.length; i += 4) {
-    newCookiesArr.push($.helpCkList.slice(i, i + 4))
-  }
+  let newCookiesArr = $.helpCkList;
   for (let i = 0; i < newCookiesArr.length; i++) {
     let thisCookiesArr = newCookiesArr[i];
     let codeList = [];
@@ -341,8 +338,20 @@ async function doTask(j) {
       }else if($.oneTask.taskType === 4){
         if($.oneTask.awardStatus === 2 && $.oneTask.completedTimes === $.oneTask.targetTimes){
           console.log(`完成任务：${$.oneTask.taskName}`);
-          await takeGetRequest('Award');
-          await $.wait(2000);
+          if ("邀请好友助力养鸡" === $.oneTask.taskName) {
+            outer:for (let i = 0; i <= 10; i++) {
+              const resDate = await takeGetRequest('Award');
+              const awardInfo = resDate.data;
+              if (awardInfo.awardStatus == 0 || "" === awardInfo.prizeInfo) {
+                  break outer;
+              }
+              console.log(`领取金币成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
+              await $.wait(2000);
+            }
+          } else {
+            await takeGetRequest('Award');
+            await $.wait(2000);
+          }
         }else if(j===0){
           console.log(`任务：${$.oneTask.taskName},未完成`);
         }
@@ -470,6 +479,7 @@ async function takeGetRequest(type) {
       break;
     default:
       console.log(`错误${type}`);
+    return myRequest;
   }
   return new Promise(async resolve => {
     $.get(myRequest, (err, resp, data) => {
@@ -481,6 +491,7 @@ async function takeGetRequest(type) {
           console.log(`请求失败`)
         } else {
           dealReturn(type, data);
+          resolve(data);
         }
       } catch (e) {
         console.log(data);
