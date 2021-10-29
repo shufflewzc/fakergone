@@ -84,35 +84,33 @@ if ($.isNode()) {
     await $.wait(2000);
   }
   console.log('\n##################开始账号内互助#################\n');
-  for (let i = 0; i < cookiesArr.length; i++) {
-    let thisCookiesArr = cookiesArr;
-    let codeList = [];
-    for (let j = 0; j < thisCookiesArr.length; j++) {
-      $.cookie = thisCookiesArr[j];
-      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-      for (let k = 0; k < $.inviteCodeList.length; k++) {
-        if ($.UserName === $.inviteCodeList[k].use) {
-          codeList.push({
-            'name': $.UserName,
-            'code': $.inviteCodeList[k].code
-          });
-        }
+  let shareCK = cookiesArr.slice(0, 4);
+  let codeList = [];
+  for (let j = 0; j < shareCK.length; j++) {
+    $.cookie = shareCK[j];
+    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+    for (let k = 0; k < $.inviteCodeList.length; k++) {
+      if ($.UserName === $.inviteCodeList[k].use) {
+        codeList.push({
+          'name': $.UserName,
+          'code': $.inviteCodeList[k].code
+        });
       }
     }
-    for (let j = 0; j < thisCookiesArr.length; j++) {
-      $.cookie = thisCookiesArr[j];
-      $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
-      UA = UAInfo[$.UserName]
-      token = await getJxToken()
-      for (let k = 0; k < codeList.length; k++) {
-        $.oneCodeInfo = codeList[k];
-        if(codeList[k].name === $.UserName){
-          continue;
-        } else {
-          console.log(`\n${$.UserName}去助力${codeList[k].name},助力码：${codeList[k].code}\n`);
-          await takeGetRequest('help');
-          await $.wait(2000);
-        }
+  }
+  for (let j = 0; j < cookiesArr.length; j++) {
+    $.cookie = cookiesArr[j];
+    $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+    UA = UAInfo[$.UserName]
+    token = await getJxToken()
+    for (let k = 0; k < codeList.length; k++) {
+      $.oneCodeInfo = codeList[k];
+      if(codeList[k].name === $.UserName){
+        continue;
+      } else {
+        console.log(`\n${$.UserName}去助力${codeList[k].name},助力码：${codeList[k].code}\n`);
+        await takeGetRequest('help');
+        await $.wait(2000);
       }
     }
   }
