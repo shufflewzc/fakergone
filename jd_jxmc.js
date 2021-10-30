@@ -84,10 +84,8 @@ if ($.isNode()) {
     await $.wait(2000);
   }
   console.log('\n##################开始账号内互助#################\n');
-  let shareCK = cookiesArr.slice(0, 4);
-  let codeList = [];
-  for (let j = 0; j < shareCK.length; j++) {
-    $.cookie = shareCK[j];
+  for (let j = 0; j < cookiesArr.length; j++) {
+    $.cookie = cookiesArr[j];
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     for (let k = 0; k < $.inviteCodeList.length; k++) {
       if ($.UserName === $.inviteCodeList[k].use) {
@@ -103,8 +101,12 @@ if ($.isNode()) {
     $.UserName = decodeURIComponent($.cookie.match(/pt_pin=([^; ]+)(?=;?)/) && $.cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
     UA = UAInfo[$.UserName]
     token = await getJxToken()
+    $.canHelp = true;
     for (let k = 0; k < codeList.length; k++) {
       $.oneCodeInfo = codeList[k];
+      if ($.canHelp === false) {
+        break;
+      }
       if(codeList[k].name === $.UserName){
         continue;
       } else {
@@ -593,7 +595,7 @@ function dealReturn(type, data) {
         console.log(`助力成功`);
       }else if (data.ret === 0 && data.data.result === 4){
         console.log(`助力次数已用完 或者已助力`);
-        //$.canHelp = false;
+        $.canHelp = false;
       }else if(data.ret === 0 && data.data.result === 5){
         console.log(`助力已满`);
         $.oneCodeInfo.max = true;
