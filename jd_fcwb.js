@@ -125,14 +125,14 @@ if ($.isNode()) {
     }
     console.log(`内部互助优先,作者在最后`)
     // const url = `https://raw.fastgit.org/${Math.random() > 0.5 ? 'shufflewzc':'shufflewzc'}/updateTeam/main/shareCodes/fcwb.json`
-    const url = `https://raw.fastgit.org/shufflewzc/updateTeam/main/shareCodes/fcwb.json`
-    const author = await getAuthorShareCode(url)
-    if (author) {
-        if (author.fcwbinviteCodeArr && author.fcwbinviterArr) {
-            fcwbinviteCodeArr = [...fcwbinviteCodeArr, ...author.fcwbinviteCodeArr]
-            fcwbinviterArr = [...fcwbinviterArr, ...author.fcwbinviterArr]
-        }
-    }
+    // const url = `https://raw.fastgit.org/shufflewzc/updateTeam/main/shareCodes/fcwb.json`
+    // const author = await getAuthorShareCode(url)
+    // if (author) {
+    //     if (author.fcwbinviteCodeArr && author.fcwbinviterArr) {
+    //         fcwbinviteCodeArr = [...fcwbinviteCodeArr, ...author.fcwbinviteCodeArr]
+    //         fcwbinviterArr = [...fcwbinviterArr, ...author.fcwbinviterArr]
+    //     }
+    // }
     for (let i = 0; i < cookiesArr.length; i++) {
         if (!cookiesArr[i]) {
             continue
