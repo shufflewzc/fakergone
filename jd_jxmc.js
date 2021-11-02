@@ -424,9 +424,20 @@ async function doTask(){
             }else if(oneTask.taskType === 4){
                 if(oneTask.awardStatus === 2 && oneTask.completedTimes === oneTask.targetTimes){
                     console.log(`完成任务：${oneTask.taskName}`);
-                    awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc&taskId=${oneTask.taskId}&bizCode=jxmc`,`bizCode%2Csource%2CtaskId`,true);
-                    console.log(`领取金币成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
-                    await $.wait(2000);
+                    if ("邀请好友助力养鸡" === $.oneTask.taskName) {
+                        outer:for (let i = 0; i <= 15; i++) {
+                            awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc&taskId=${oneTask.taskId}&bizCode=jxmc`,`bizCode%2Csource%2CtaskId`,true);
+                            if (awardInfo.awardStatus == 0 || "" === awardInfo.prizeInfo) {
+                                break outer;
+                            }
+                            console.log(`领取金币成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
+                            await $.wait(2000);
+                        }
+                    } else {
+                        awardInfo = await takeRequest(`newtasksys`,`newtasksys_front/Award`,`source=jxmc&taskId=${oneTask.taskId}&bizCode=jxmc`,`bizCode%2Csource%2CtaskId`,true);
+                        console.log(`领取金币成功，获得${JSON.parse(awardInfo.prizeInfo).prizeInfo}`);
+                        await $.wait(2000);
+                    }
                     $.freshFlag = true;
                 }else {
                     console.log(`任务：${oneTask.taskName},未完成`);
