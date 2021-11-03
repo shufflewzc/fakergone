@@ -59,8 +59,6 @@ let shareList = [];
             }
         }
     }
-    await getShareCode('tewu.json')
-    allShareList = [...new Set([...allShareList, ...($.shareCode || [])])]
     console.log(`\n-----------------------互助----------------------\n`)
     for (let i = 0; i < cookiesArr.length; i++) {
         let cookie = cookiesArr[i];
