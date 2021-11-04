@@ -4,12 +4,12 @@ ck1助力 作者
 其余助力ck1
 https://u.jd.com/yI2EGVm
 跳转到app 可查看助力情况
-0 0,8,20,22 * * * gua_1111RedEnvelope.js
+0 0,10,18,20,22 * * * gua_RedEnvelope.js
 */
 
 let rebateCodes = ''
 
-const $ = new Env('第二轮无门槛红包🧧');
+const $ = new Env('第二期红包🧧');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
 const notify = $.isNode() ? require('./sendNotify') : '';
 const Faker = $.isNode() ? require('./sign_graphics_validate.js') : '';
@@ -45,7 +45,7 @@ let nowTime = new Date().getTime() + new Date().getTimezoneOffset()*60*1000 + 8*
     if ($.isNode()) await notify.sendNotify($.name + '活动已结束', `请删除此脚本\n咱江湖再见`);
     return
   }
-  $.shareCode = ''
+  $.shareCode = 'zZDrk'
   for (let i = 0; i < cookiesArr.length; i++) {
     cookie = cookiesArr[i];
     if (cookie) {
