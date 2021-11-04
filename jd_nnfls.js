@@ -50,9 +50,6 @@
          await drawUserTask();
      }
      shareCodes = shareCodes.filter(code => code)
-     const author = Math.random() > 0.5 ? 'shufflewzc' : 'shufflewzc'
-     await getShareCode('nnfls.json',author,3,true)
-     shareCodes = [...new Set([...shareCodes, ...($.shareCode || [])])];
      if (shareCodes.length > 0) {
          console.log(`\n开始互助\n`);
      }
