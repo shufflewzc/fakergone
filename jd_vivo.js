@@ -22,11 +22,6 @@ $.shareUuid = '';
         return;
     }
     let res = [];
-    try{res = await getAuthorShareCode('https://raw.githubusercontent.com/lsh26/share_code/main/vivo.json');}catch (e) {}
-    if(!res){
-        try{res = await getAuthorShareCode('https://cdn.jsdelivr.net/gh/lsh26/share_code@main/vivo.json');}catch (e) {}
-        if(!res){res = [];}
-    }
     if(res.length > 0){
         $.shareUuid = getRandomArrayElements(res,1)[0];
     }
