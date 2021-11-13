@@ -59,13 +59,13 @@ $.keywordsNum = 0;
                     }
                     continue
                 }
-                authorCodeList = [
-                    'b5d9535918264a4f92fff9d314d7db81',
-                ]
                 $.bean = 0;
                 $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
                 $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-                $.authorCode = authorCodeList[random(0, authorCodeList.length)]
+                $.authorCode = []
+                if (process.env.QQ_STAR_SHARE_CODE) {
+                    $.authorCode = process.env.QQ_STAR_SHARE_CODE.split(",")
+                }
                 $.authorNum = `${random(1000000, 9999999)}`
                 $.activityId = activityId
                 $.activityUrl = `https://lzkj-isv.isvjcloud.com/wxCollectionActivity/activity2/${$.authorNum}?activityId=${$.activityId}&shareUuid=${encodeURIComponent($.authorCode)}&adsource=null&sid=&un_area=`
