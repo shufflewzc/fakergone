@@ -133,7 +133,9 @@ function getTaskDetail(taskId = '') {
               }
             } else if (taskId === 6) {
               if (data?.data?.result?.taskVos) {
-                console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken}\n`);
+                const selfCode = data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken
+                $.inviteCodes.push(selfCode)
+                console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${selfCode}\n`);
                 // console.log('好友助力码：' + data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken)
               }
             } else if (taskId === 22) {
