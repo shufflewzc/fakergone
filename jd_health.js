@@ -42,6 +42,14 @@ const JD_API_HOST = "https://api.m.jd.com/";
     $.msg($.name, "【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取", "https://bean.m.jd.com/", {"open-url": "https://bean.m.jd.com/"});
     return;
   }
+  for (let i = 0; i < cookiesArr.length; i++) {
+    if (cookiesArr[i]) {
+      cookie = cookiesArr[i];
+      $.UserName = decodeURIComponent(cookie.match(/pt_pin=([^; ]+)(?=;?)/) && cookie.match(/pt_pin=([^; ]+)(?=;?)/)[1]);
+      $.index = i + 1;
+      await getTaskDetail(6)
+    }
+  }
   await requireConfig()
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
@@ -72,7 +80,6 @@ async function main() {
     $.earn = false
     await getTaskDetail(-1)
     await getTaskDetail(16)
-    await getTaskDetail(6)
     for(let i = 0 ; i < 5; ++i){
       $.canDo = false
       await getTaskDetail()
@@ -133,8 +140,8 @@ function getTaskDetail(taskId = '') {
             } else if (taskId === 6) {
               if (data?.data?.result?.taskVos) {
                 const selfCode = data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken
-                $.shareCodesArr = $.shareCodesArr || []
-                $.shareCodesArr.push(selfCode)
+                $.newShareCodes = $.newShareCodes || []
+                $.newShareCodes.push(selfCode)
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${selfCode}\n`);
                 // console.log('好友助力码：' + data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken)
               }
@@ -349,13 +356,9 @@ function readShareCode() {
 function shareCodesFormat() {
   return new Promise(async resolve => {
     // console.log(`第${$.index}个京东账号的助力码:::${$.shareCodesArr[$.index - 1]}`)
-    $.newShareCodes = [];
+    $.newShareCodes = $.newShareCodes || [];
     if ($.shareCodesArr && $.shareCodesArr[$.index - 1]) {
       $.newShareCodes = $.shareCodesArr[$.index - 1].split('@');
-    } else {
-      console.log(`由于您第${$.index}个京东账号未提供shareCode,将采纳本脚本自带的助力码\n`)
-      const tempIndex = $.index > inviteCodes.length ? (inviteCodes.length - 1) : ($.index - 1);
-      $.newShareCodes = inviteCodes[tempIndex].split('@');
     }
     // const readShareCodeRes = await readShareCode();
     // if (readShareCodeRes && readShareCodeRes.code === 200) {
