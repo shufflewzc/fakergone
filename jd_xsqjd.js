@@ -1,7 +1,7 @@
 /*
 * 活动：APP - 京东超市 - 限时抢京豆
 * 第一个CK助力作者，其他CK助力第一个CK
-cron 23 7,9 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_xsqjd.js
+cron 23 7,9 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_xsljd.js
 * */
 const $ = new Env('限时抢京豆');
 const jdCookieNode = $.isNode() ? require('./jdCookie.js') : '';
@@ -31,6 +31,12 @@ let autoCode = '',projectId = '',helpId = '';
         console.log(`活动结束`);
         return;
     }
+    let res = [];
+    let res2 = [];
+    res = [...res,...res2]
+    if(res.length > 0){
+        autoCode = getRandomArrayElements(res,1)[0];
+    }
     mainPin = decodeURIComponent(cookiesArr[0].match(/pt_pin=(.+?);/) && cookiesArr[0].match(/pt_pin=(.+?);/)[1])
     if(cookiesArr.length>0){
         const promiseArr = cookiesArr.map((ck, index) => main(ck));
@@ -56,15 +62,29 @@ let autoCode = '',projectId = '',helpId = '';
 
 async function help(ck){
     let userName = decodeURIComponent(ck.match(/pt_pin=(.+?);/) && ck.match(/pt_pin=(.+?);/)[1])
-    console.log(`\n${userName} 助力 ${ownCode.user}`);
-    let getInfo = await takeRequest('smt_newFission_taskFlag',`&body=%7B%22taskType%22%3A%222%22%2C%22operateType%22%3A%221%22%2C%22assistId%22%3A%22${ownCode.itemId}%22%7D`,ck);
-    console.log(JSON.stringify(getInfo));
-    await $.wait(1000)
-    if(getInfo.assistFlag === '1'){
-        let doInfo = await takeRequest('smt_newFission_doAssignment',`&body=%7B%22projectId%22%3A%22${ownCode.projectId}%22%2C%22assignmentId%22%3A%22${ownCode.assignmentId}%22%2C%22itemId%22%3A%22${ownCode.itemId}%22%2C%22type%22%3A%22${ownCode.type}%22%7D`,ck);
-        console.log(JSON.stringify(doInfo));
+    if(userName === ownCode.user){
+        if(autoCode){
+            console.log(`\n助力作者`);
+            let getInfo = await takeRequest('smt_newFission_taskFlag',`&body=%7B%22taskType%22%3A%222%22%2C%22operateType%22%3A%221%22%2C%22assistId%22%3A%22${autoCode}%22%7D`,ck);
+            await $.wait(1000)
+            if(getInfo.assistFlag === '1'){
+                let doInfo = await takeRequest('smt_newFission_doAssignment',`&body=%7B%22projectId%22%3A%22${projectId}%22%2C%22assignmentId%22%3A%22${helpId}%22%2C%22itemId%22%3A%22${autoCode}%22%2C%22type%22%3A%222%22%7D`,ck);
+                console.log(JSON.stringify(doInfo));
+            }else{
+                console.log(`已助力过或者无次数`);
+            }
+        }
     }else{
-        console.log(`已助力过或者无次数`);
+        console.log(`\n${userName} 助力 ${ownCode.user}`);
+        let getInfo = await takeRequest('smt_newFission_taskFlag',`&body=%7B%22taskType%22%3A%222%22%2C%22operateType%22%3A%221%22%2C%22assistId%22%3A%22${ownCode.itemId}%22%7D`,ck);
+        console.log(JSON.stringify(getInfo));
+        await $.wait(1000)
+        if(getInfo.assistFlag === '1'){
+            let doInfo = await takeRequest('smt_newFission_doAssignment',`&body=%7B%22projectId%22%3A%22${ownCode.projectId}%22%2C%22assignmentId%22%3A%22${ownCode.assignmentId}%22%2C%22itemId%22%3A%22${ownCode.itemId}%22%2C%22type%22%3A%22${ownCode.type}%22%7D`,ck);
+            console.log(JSON.stringify(doInfo));
+        }else{
+            console.log(`已助力过或者无次数`);
+        }
     }
     await $.wait(1000)
 }
