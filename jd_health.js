@@ -24,7 +24,6 @@ const jdCookieNode = $.isNode() ? require("./jdCookie.js") : "";
 const notify = $.isNode() ? require('./sendNotify') : "";
 let cookiesArr = [], cookie = "", allMessage = "", message;
 const inviteCodes = [
-  ''
 ]
 let reward = $.isNode() ? (process.env.JD_HEALTH_REWARD_NAME ? process.env.JD_HEALTH_REWARD_NAME : '') : ($.getdata('JD_HEALTH_REWARD_NAME') ? $.getdata('JD_HEALTH_REWARD_NAME') : '');
 const randomCount = $.isNode() ? 20 : 5;
@@ -134,7 +133,7 @@ function getTaskDetail(taskId = '') {
             } else if (taskId === 6) {
               if (data?.data?.result?.taskVos) {
                 const selfCode = data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken
-                $.inviteCodes.push(selfCode)
+                inviteCodes.push(selfCode)
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${selfCode}\n`);
                 // console.log('好友助力码：' + data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken)
               }
