@@ -133,7 +133,8 @@ function getTaskDetail(taskId = '') {
             } else if (taskId === 6) {
               if (data?.data?.result?.taskVos) {
                 const selfCode = data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken
-                inviteCodes.push(selfCode)
+                $.shareCodesArr = $.shareCodesArr || []
+                $.shareCodesArr.push(selfCode)
                 console.log(`\n【京东账号${$.index}（${$.UserName}）的${$.name}好友互助码】${selfCode}\n`);
                 // console.log('好友助力码：' + data?.data?.result?.taskVos[0].assistTaskDetailVo.taskToken)
               }
@@ -380,7 +381,7 @@ function requireConfig() {
       }
     }
     console.log(`共${cookiesArr.length}个京东账号\n`);
-    $.shareCodesArr = [];
+    $.shareCodesArr = $.shareCodesArr || [];
     if ($.isNode()) {
       Object.keys(shareCodes).forEach((item) => {
         if (shareCodes[item]) {
