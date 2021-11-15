@@ -63,6 +63,11 @@ let IGOT_PUSH_KEY = '';
 //PUSH_PLUS_USER： 一对多推送的“群组编码”（一对多推送下面->您的群组(如无则新建)->群组编码，如果您是创建群组人。也需点击“查看二维码”扫描绑定，否则不能接受群组消息推送）
 let PUSH_PLUS_TOKEN = '';
 let PUSH_PLUS_USER = '';
+// =======================================wx设置区域=======================================
+let WX_TOKEN = '';
+let WX_URL = '';
+let WX_RECEIVE_USER_ID = '';
+let WX_BOT_USER_ID = '';
 //==========================云端环境变量的判断与接收=========================
 if (config.PUSH_KEY) {
     SCKEY = config.PUSH_KEY;
@@ -123,6 +128,18 @@ if (config.PUSH_PLUS_TOKEN) {
 if (config.PUSH_PLUS_USER) {
     PUSH_PLUS_USER = config.PUSH_PLUS_USER;
 }
+if (config.WX_TOKEN) {
+    WX_TOKEN = config.WX_TOKEN;
+}
+if (config.WX_URL) {
+    WX_URL = config.WX_URL;
+}
+if (config.WX_RECEIVE_USER_ID) {
+    WX_RECEIVE_USER_ID = config.WX_RECEIVE_USER_ID;
+}
+if (config.WX_BOT_USER_ID) {
+    WX_BOT_USER_ID = config.WX_BOT_USER_ID;
+}
 //==========================云端环境变量的判断与接收=========================
 async function sendNotify(text, desp, params = {}) {
     //提供6种通知
@@ -140,6 +157,7 @@ async function sendNotify(text, desp, params = {}) {
         qywxBotNotify(text, desp), //企业微信机器人
         qywxamNotify(text, desp), //企业微信应用消息推送
         iGotNotify(text, desp, params), //iGot
+        wxBotNotify(text, desp),
         //CoolPush(text, desp)//QQ酷推
     ])
 }
@@ -669,6 +687,51 @@ function pushPlusNotify(text, desp) {
         }
     })
 }
+
+function wxBotNotify(text, desp) {
+    return new Promise(resolve => {
+        if (WX_URL && WX_TOKEN && WX_BOT_USER_ID && WX_RECEIVE_USER_ID) {
+            const body = {
+                "token": WX_TOKEN,
+                "api": "SendTextMsg",
+                "robot_wxid": WX_BOT_USER_ID,
+                "to_wxid": WX_RECEIVE_USER_ID,
+                "msg": `${text}\n\n${desp}`
+            };
+            const options = {
+                url: WX_URL,
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': ' application/json'
+                },
+                timeout: 10000
+            }
+            $.post(options, (err, resp, data) => {
+                try {
+                    if (err) {
+                        console.log('微信发送通知消息失败！！\n')
+                        console.log(err);
+                    } else {
+                        data = JSON.parse(data);
+                        if (data.Code === 0) {
+                            console.log('微信发送通知消息成功🎉。\n')
+                        } else {
+                            console.log('微信发送通知消息失败！！\n')
+                        }
+                    }
+                } catch (e) {
+                    $.logErr(e, resp);
+                } finally {
+                    resolve(data);
+                }
+            })
+        } else {
+            console.log('您未提供微信机器人推送所需参数\n');
+            resolve()
+        }
+    })
+}
+
 module.exports = {
     sendNotify,
     BARK_PUSH
