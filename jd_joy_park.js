@@ -85,7 +85,7 @@ message = ""
       if ($.isNode()) {
         if (process.env.HELP_JOYPARK && process.env.HELP_JOYPARK == "false") {
         } else {
-          await getShareCode()
+          // await getShareCode()
           if ($.kgw_invitePin && $.kgw_invitePin.length) {
             $.log("开始帮【zero205】助力开工位\n");
             $.kgw_invitePin = [...($.kgw_invitePin || [])][Math.floor((Math.random() * $.kgw_invitePin.length))];
