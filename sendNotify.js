@@ -100,6 +100,12 @@ let WP_URL = "";
 
 let WP_APP_TOKEN_ONE = "";
 let WP_UIDS_ONE = "";
+// =======================================wx设置区域=======================================
+let WX_TOKEN = '';
+let WX_URL = '';
+let WX_RECEIVE_USER_ID = '';
+let WX_BOT_USER_ID = '';
+
 /**
  * sendNotify 推送通知功能
  * @param text 通知头
@@ -193,6 +199,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 		var Use_gobotNotify = true;
 		var Use_pushPlushxtripNotify = true;
 		var Use_WxPusher = true;
+		var Use_WXBot = true;
 
 		if (process.env.NOTIFY_NOCKFALSE) {
 			Notify_NoCKFalse = process.env.NOTIFY_NOCKFALSE;
@@ -366,6 +373,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 							Use_qywxamNotify = false;
 							Use_iGotNotify = false;
 							Use_gobotNotify = false;
+							Use_WXBot = false;
 
 							for (let Tempk = 2; Tempk < strCustomTempArr.length; Tempk++) {
 								var strTrmp = strCustomTempArr[Tempk];
@@ -413,6 +421,10 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 								case "WxPusher":
 									Use_WxPusher = true;
 									console.log("自定义设定启用WxPusher进行通知...");
+									break;
+								case "wechat":
+									Use_WXBot = true;
+									console.log("自定义设定启用微信进行通知...");
 									break;
 
 								}
@@ -526,6 +538,15 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			if (process.env.PUSH_PLUS_USER_hxtrip && Use_pushPlushxtripNotify) {
 				PUSH_PLUS_USER_hxtrip = process.env.PUSH_PLUS_USER_hxtrip;
 			}
+
+			if (process.env.WX_URL && Use_WXBot)
+				WX_URL = process.env.WX_URL;
+			if (process.env.WX_TOKEN && Use_WXBot)
+				WX_TOKEN = process.env.WX_TOKEN;
+			if (process.env.WX_RECEIVE_USER_ID && Use_WXBot)
+				WX_RECEIVE_USER_ID = process.env.WX_RECEIVE_USER_ID;
+			if (process.env.WX_BOT_USER_ID && Use_WXBot)
+				WX_BOT_USER_ID = process.env.WX_BOT_USER_ID;
 			break;
 
 		case 2:
@@ -621,6 +642,15 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			if (process.env.PUSH_PLUS_USER_hxtrip2 && Use_pushPlushxtripNotify) {
 				PUSH_PLUS_USER_hxtrip = process.env.PUSH_PLUS_USER_hxtrip2;
 			}
+
+			if (process.env.WX_URL2 && Use_WXBot)
+				WX_URL = process.env.WX_URL2;
+			if (process.env.WX_TOKEN2 && Use_WXBot)
+				WX_TOKEN = process.env.WX_TOKEN2;
+			if (process.env.WX_RECEIVE_USER_ID2 && Use_WXBot)
+				WX_RECEIVE_USER_ID = process.env.WX_RECEIVE_USER_ID2;
+			if (process.env.WX_BOT_USER_ID2 && Use_WXBot)
+				WX_BOT_USER_ID = process.env.WX_BOT_USER_ID2;
 			break;
 
 		case 3:
@@ -717,6 +747,14 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			if (process.env.PUSH_PLUS_USER_hxtrip3 && Use_pushPlushxtripNotify) {
 				PUSH_PLUS_USER_hxtrip = process.env.PUSH_PLUS_USER_hxtrip3;
 			}
+			if (process.env.WX_URL3 && Use_WXBot)
+				WX_URL = process.env.WX_URL3;
+			if (process.env.WX_TOKEN3 && Use_WXBot)
+				WX_TOKEN = process.env.WX_TOKEN3;
+			if (process.env.WX_RECEIVE_USER_ID3 && Use_WXBot)
+				WX_RECEIVE_USER_ID = process.env.WX_RECEIVE_USER_ID3;
+			if (process.env.WX_BOT_USER_ID3 && Use_WXBot)
+				WX_BOT_USER_ID = process.env.WX_BOT_USER_ID3;
 			break;
 
 		case 4:
@@ -814,6 +852,14 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 				PUSH_PLUS_USER_hxtrip = process.env.PUSH_PLUS_USER_hxtrip4;
 			}
 
+			if (process.env.WX_URL4 && Use_WXBot)
+				WX_URL = process.env.WX_URL4;
+			if (process.env.WX_TOKEN4 && Use_WXBot)
+				WX_TOKEN = process.env.WX_TOKEN4;
+			if (process.env.WX_RECEIVE_USER_ID4 && Use_WXBot)
+				WX_RECEIVE_USER_ID = process.env.WX_RECEIVE_USER_ID4;
+			if (process.env.WX_BOT_USER_ID4 && Use_WXBot)
+				WX_BOT_USER_ID = process.env.WX_BOT_USER_ID4;
 			break;
 
 		case 5:
@@ -909,6 +955,14 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			if (process.env.PUSH_PLUS_USER_hxtrip5 && Use_pushPlushxtripNotify) {
 				PUSH_PLUS_USER_hxtrip = process.env.PUSH_PLUS_USER_hxtrip5;
 			}
+			if (process.env.WX_URL5 && Use_WXBot)
+				WX_URL = process.env.WX_URL5;
+			if (process.env.WX_TOKEN5 && Use_WXBot)
+				WX_TOKEN = process.env.WX_TOKEN5;
+			if (process.env.WX_RECEIVE_USER_ID5 && Use_WXBot)
+				WX_RECEIVE_USER_ID = process.env.WX_RECEIVE_USER_ID5;
+			if (process.env.WX_BOT_USER_ID5 && Use_WXBot)
+				WX_BOT_USER_ID = process.env.WX_BOT_USER_ID5;
 			break;
 
 		case 6:
@@ -1004,6 +1058,15 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			if (process.env.PUSH_PLUS_USER_hxtrip6 && Use_pushPlushxtripNotify) {
 				PUSH_PLUS_USER_hxtrip = process.env.PUSH_PLUS_USER_hxtrip6;
 			}
+
+			if (process.env.WX_URL6 && Use_WXBot)
+				WX_URL = process.env.WX_URL6;
+			if (process.env.WX_TOKEN6 && Use_WXBot)
+				WX_TOKEN = process.env.WX_TOKEN6;
+			if (process.env.WX_RECEIVE_USER_ID6 && Use_WXBot)
+				WX_RECEIVE_USER_ID = process.env.WX_RECEIVE_USER_ID6;
+			if (process.env.WX_BOT_USER_ID6 && Use_WXBot)
+				WX_BOT_USER_ID = process.env.WX_BOT_USER_ID6;
 			break;
 		}
 
@@ -1174,7 +1237,8 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			qywxamNotify(text, desp), //企业微信应用消息推送
 			iGotNotify(text, desp, params), //iGot
 			gobotNotify(text, desp), //go-cqhttp
-			wxpusherNotify(text, desp) // wxpusher
+			wxpusherNotify(text, desp), // wxpusher
+			wxBotNotify(text, desp), // 微信
 		]);
 }
 
@@ -1954,6 +2018,51 @@ function wxpusherNotify(text, desp) {
 		}
 	});
 }
+
+function wxBotNotify(text, desp) {
+    return new Promise(resolve => {
+        if (WX_URL && WX_TOKEN && WX_BOT_USER_ID && WX_RECEIVE_USER_ID) {
+            const body = {
+                "token": WX_TOKEN,
+                "api": "SendTextMsg",
+                "robot_wxid": WX_BOT_USER_ID,
+                "to_wxid": WX_RECEIVE_USER_ID,
+                "msg": `${text}\n\n${desp}`
+            };
+            const options = {
+                url: WX_URL,
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': ' application/json'
+                },
+                timeout: 10000
+            }
+            $.post(options, (err, resp, data) => {
+                try {
+                    if (err) {
+                        console.log('微信发送通知消息失败！！\n')
+                        console.log(err);
+                    } else {
+                        data = JSON.parse(data);
+                        if (data.Code === 0) {
+                            console.log('微信发送通知消息成功🎉。\n')
+                        } else {
+                            console.log('微信发送通知消息失败！！\n')
+                        }
+                    }
+                } catch (e) {
+                    $.logErr(e, resp);
+                } finally {
+                    resolve(data);
+                }
+            })
+        } else {
+            console.log('您未提供微信机器人推送所需参数\n');
+            resolve()
+        }
+    })
+}
+
 
 function GetDateTime(date) {
 

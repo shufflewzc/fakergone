@@ -696,7 +696,7 @@ function wxBotNotify(text, desp) {
                 "api": "SendTextMsg",
                 "robot_wxid": WX_BOT_USER_ID,
                 "to_wxid": WX_RECEIVE_USER_ID,
-                "msg": `${text}\n${desp}`
+                "msg": `${text}\n\n${desp}`
             };
             const options = {
                 url: WX_URL,
