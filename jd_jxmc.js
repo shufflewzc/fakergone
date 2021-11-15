@@ -1,6 +1,6 @@
 /**
  惊喜牧场
- cron 23 0-23/2 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
+ cron 23 0-23/3 * * * https://raw.githubusercontent.com/star261/jd/main/scripts/jd_jxmc.js
  环境变量：JX_USER_AGENT, 惊喜APP的UA。领取助力任务奖励需要惊喜APP的UA,有能力的可以填上自己的UA,默认生成随机UA
  环境变量：BYTYPE,购买小鸡品种，默认不购买,(ps:暂时不知道买哪个好)
  BYTYPE="1",购买小黄鸡，BYTYPE="2",购买辣子鸡，BYTYPE="3",购买椰子鸡,BYTYPE="4",购买猪肚鸡,BYTYPE="999",能买哪只买哪只,BYTYPE="888",不购买小鸡
@@ -148,9 +148,6 @@ async function main() {
         return;
     }
     console.log(`获取获得详情成功,总共有小鸡：${petidList.length}只,鸡蛋:${homePageInfo.eggcnt}个,金币:${homePageInfo.coins},互助码：${homePageInfo.sharekey}`);
-    //购买小鸡
-    await buyChick(configInfo,homePageInfo,cardInfo);
- 
     if(!petidList || petidList.length === 0){
         console.log(`账号内没有小鸡，暂停执行`);
         return ;
@@ -216,6 +213,8 @@ async function main() {
             }
         }
     }
+    //购买小鸡
+    await buyChick(configInfo,homePageInfo,cardInfo);
 
     $.freshFlag = false;
     let runTime = 0;
