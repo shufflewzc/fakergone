@@ -726,7 +726,7 @@ function wxBotNotify(text, desp) {
                 }
             })
         } else {
-            // console.log('您未提供telegram机器人推送所需的TG_BOT_TOKEN和TG_USER_ID，取消telegram推送消息通知🚫\n');
+            console.log('您未提供微信机器人推送所需参数\n');
             resolve()
         }
     })
