@@ -2137,6 +2137,9 @@ function oneByoneNotify(text, desp, params) {
 }
 
 function translateWxEmoji(str) {
+	if (!str) {
+		return;
+	}
 	let tempMsg = str
 	tempMsg = tempMsg.replaceAll("⭕", "[emoji=\\u2b55]")
 	tempMsg = tempMsg.replaceAll("🧧", "[emoji=\\uD83E\\uDDE7]")
