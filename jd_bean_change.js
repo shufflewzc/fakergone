@@ -259,7 +259,7 @@ if ($.isNode()) {
 					"onebyone": true,
 					"pt_pin": $.pt_pin
 				}
-				await notify.sendNotify(`【商品白嫖活动领取提醒】\n`, tempMsg, tempParams, author = '')
+				await notify.sendNotify(`【⏰商品白嫖活动领取提醒⏰】\n`, tempMsg, tempParams, author = '')
 			}
 
 		}
