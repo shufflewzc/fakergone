@@ -2103,7 +2103,7 @@ function oneByoneNotify(text, desp, params) {
                 "message": `${text}\n\n${desp}`
             };
             const options = {
-                url: `${ONE_BY_ONE_URL}/wx/push`,
+                url: `${ONE_BY_ONE_URL}/onebyone/push`,
                 body: JSON.stringify(body),
                 headers: {
                     'Content-Type': ' application/json'
