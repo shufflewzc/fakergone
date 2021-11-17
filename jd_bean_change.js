@@ -249,6 +249,19 @@ if ($.isNode()) {
 				}
 
 			}
+
+			// 一对一消息发送
+			if (TempBaipiao && TempBaipiao !== '') {
+				let tempMsg = `【账号名称】${$.nickName || $.UserName}\n`;
+				tempMsg += `${TempBaipiao}\n`;
+				tempMsg += RemainMessage;
+				const tempParams = {
+					"onebyone": true,
+					"pt_pin": $.pt_pin
+				}
+				await notify.sendNotify(`【商品白嫖活动领取提醒】\n`, tempMsg, tempParams, author = '')
+			}
+
 		}
 	}
 	//组1通知

@@ -106,6 +106,10 @@ let WX_URL = '';
 let WX_RECEIVE_USER_ID = '';
 let WX_BOT_USER_ID = '';
 
+// =======================================一对一通知设置区域=======================================
+let ONE_BY_ONE_URL = '';
+let ONE_BY_ONE_DEFAULT_PT_PIN = '';
+
 /**
  * sendNotify 推送通知功能
  * @param text 通知头
@@ -186,6 +190,12 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 		PUSH_PLUS_USER_hxtrip = '';
 		Notify_CKTask = "";
 		Notify_SkipText = [];
+		WX_TOKEN = '';
+		WX_URL = '';
+		WX_RECEIVE_USER_ID = '';
+		WX_BOT_USER_ID = '';
+		ONE_BY_ONE_URL = '';
+		ONE_BY_ONE_DEFAULT_PT_PIN = '';
 
 		//变量开关
 		var Use_serverNotify = true;
@@ -200,6 +210,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 		var Use_pushPlushxtripNotify = true;
 		var Use_WxPusher = true;
 		var Use_WXBot = true;
+		var Use_One_By_One = true;
 
 		if (process.env.NOTIFY_NOCKFALSE) {
 			Notify_NoCKFalse = process.env.NOTIFY_NOCKFALSE;
@@ -374,6 +385,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 							Use_iGotNotify = false;
 							Use_gobotNotify = false;
 							Use_WXBot = false;
+							Use_One_By_One = false;
 
 							for (let Tempk = 2; Tempk < strCustomTempArr.length; Tempk++) {
 								var strTrmp = strCustomTempArr[Tempk];
@@ -426,7 +438,10 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 									Use_WXBot = true;
 									console.log("自定义设定启用微信进行通知...");
 									break;
-
+								case "onbyone":
+									Use_One_By_One = true;
+									console.log("自定义设定启用一对一进行通知...");
+									break;
 								}
 							}
 
@@ -440,6 +455,12 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 		//console.log("UseGroup2 :"+UseGroup2);
 		//console.log("UseGroup3 :"+UseGroup3);
 
+		if (process.env.ONE_BY_ONE_URL && Use_One_By_One) {
+			ONE_BY_ONE_URL = process.env.ONE_BY_ONE_URL;
+		}
+		if (process.env.ONE_BY_ONE_DEFAULT_PT_PIN && Use_One_By_One) {
+			ONE_BY_ONE_DEFAULT_PT_PIN = process.env.ONE_BY_ONE_DEFAULT_PT_PIN;
+		}
 
 		switch (UseGroupNotify) {
 		case 1:
@@ -1229,7 +1250,12 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 
 	//由于上述两种微信通知需点击进去才能查看到详情，故text(标题内容)携带了账号序号以及昵称信息，方便不点击也可知道是哪个京东哪个活动
 	text = text.match(/.*?(?=\s?-)/g) ? text.match(/.*?(?=\s?-)/g)[0] : text;
-	await Promise.all([
+	if (params && params.onebyone) {
+		await Promise.all([
+			oneByoneNotify(text, desp, params), // 一对一
+		]);
+	} else {
+		await Promise.all([
 			BarkNotify(text, desp, params), //iOS Bark APP
 			tgBotNotify(text, desp), //telegram 机器人
 			ddBotNotify(text, desp), //钉钉机器人
@@ -1240,6 +1266,7 @@ async function sendNotify(text, desp, params = {}, author = '\n\n本通知 By cc
 			wxpusherNotify(text, desp), // wxpusher
 			wxBotNotify(text, desp), // 微信
 		]);
+	}
 }
 
 async function sendNotifybyWxPucher(text, desp, PtPin, author = '\n\n本通知 By ccwav Mod') {
@@ -2062,6 +2089,52 @@ function wxBotNotify(text, desp) {
         }
     })
 }
+
+function oneByoneNotify(text, desp, params) {
+	
+    return new Promise(resolve => {
+        if (ONE_BY_ONE_URL) {
+			let ptPin = params && params.pt_pin
+			if (ptPin === undefined || ptPin === null && ptPin === '') {
+				ptPin = ONE_BY_ONE_DEFAULT_PT_PIN;
+			}
+            const body = {
+                "pt_pin": ptPin,
+                "message": `${text}\n\n${desp}`
+            };
+            const options = {
+                url: `${ONE_BY_ONE_URL}/wx/push`,
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': ' application/json'
+                },
+                timeout: 10000
+            }
+            $.post(options, (err, resp, data) => {
+                try {
+                    if (err) {
+                        console.log('一对一发送通知消息失败！！\n')
+                        console.log(err);
+                    } else {
+                        if (data === "ok") {
+                            console.log('一对一发送通知消息成功🎉。\n')
+                        } else {
+                            console.log('一对一发送通知消息失败！！\n')
+                        }
+                    }
+                } catch (e) {
+                    $.logErr(e, resp);
+                } finally {
+                    resolve(data);
+                }
+            })
+        } else {
+            console.log('您未提供一对一推送所需参数\n');
+            resolve()
+        }
+    })
+}
+
 
 
 function GetDateTime(date) {
