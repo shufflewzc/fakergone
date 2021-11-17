@@ -2146,6 +2146,7 @@ function translateWxEmoji(str) {
 	tempMsg = tempMsg.replaceAll("🍒", "[emoji=\\ud83c\\udf52\\u00a]")
 	tempMsg = tempMsg.replaceAll("🐶", "[emoji=\\ud83d\\udc36]")
 	tempMsg = tempMsg.replaceAll("🎰", "[emoji=\\ud83c\\udfb0]")
+	tempMsg = tempMsg.replaceAll("👬", "[emoji=\\ud83d\\udc6c]")
 	return tempMsg
 }
 
