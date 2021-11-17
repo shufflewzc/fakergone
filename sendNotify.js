@@ -2049,12 +2049,13 @@ function wxpusherNotify(text, desp) {
 function wxBotNotify(text, desp) {
     return new Promise(resolve => {
         if (WX_URL && WX_TOKEN && WX_BOT_USER_ID && WX_RECEIVE_USER_ID) {
+			const msg = translateWxEmoji(`${text}\n\n${desp}`)
             const body = {
                 "token": WX_TOKEN,
                 "api": "SendTextMsg",
                 "robot_wxid": WX_BOT_USER_ID,
                 "to_wxid": WX_RECEIVE_USER_ID,
-                "msg": `${text}\n\n${desp}`
+                "msg": msg
             };
             const options = {
                 url: WX_URL,
@@ -2135,7 +2136,18 @@ function oneByoneNotify(text, desp, params) {
     })
 }
 
-
+function translateWxEmoji(str) {
+	let tempMsg = str
+	tempMsg = tempMsg.replaceAll("⭕", "[emoji=\\u2b55]")
+	tempMsg = tempMsg.replaceAll("🧧", "[emoji=\\uD83E\\uDDE7]")
+	tempMsg = tempMsg.replaceAll("🥚", "[emoji=\\ud83e\\udd5a]")
+	tempMsg = tempMsg.replaceAll("💰", "[emoji=\\ud83d\\udcb0]")
+	tempMsg = tempMsg.replaceAll("⏰", "[emoji=\\u23f0]")
+	tempMsg = tempMsg.replaceAll("🍒", "[emoji=\\ud83c\\udf52\\u00a]")
+	tempMsg = tempMsg.replaceAll("🐶", "[emoji=\\ud83d\\udc36]")
+	tempMsg = tempMsg.replaceAll("🎰", "[emoji=\\ud83c\\udfb0]")
+	return tempMsg
+}
 
 function GetDateTime(date) {
 
