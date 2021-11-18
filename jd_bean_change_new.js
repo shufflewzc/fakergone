@@ -128,7 +128,7 @@ async function showMsg() {
         }
     }
     if ($.jxFactoryInfo) {
-        if (!$.jxFactoryInfo.contain("预计") ||  !$.jxFactoryInfo.contain("查询")) {
+        if (!$.jxFactoryInfo.includes("预计") ||  !$.jxFactoryInfo.includes("查询")) {
             // 一对一消息发送
             let tempMsg = `【账号名称】${$.nickName || $.UserName}\n`;
             tempMsg += `${$.jxFactoryInfo}\n`;
