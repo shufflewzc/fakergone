@@ -656,7 +656,14 @@ function userInfo() {
                   if (production['exchangeStatus'] === 3) {
                     $.log(`\n\n商品兑换已超时`)
                     if (new Date().getHours() === 9) {
-                      $.msg($.name, '', `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}兑换已超时，请选择新商品进行制造`)
+                      // 一对一消息发送
+                      let tempMsg = `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}兑换已超时，请选择新商品进行制造`;
+                      const tempParams = {
+                        "onebyone": true,
+                        "pt_pin": $.UserName
+                      }
+                      await notify.sendNotify(`【⏰商品白嫖活动提醒⏰】\n`, tempMsg, tempParams, author = '')
+                    $.msg($.name, '', `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}兑换已超时，请选择新商品进行制造`)
                       if (`${notifyLevel}` === '3' || `${notifyLevel}` === '2') allMessage += `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}兑换已超时，请选择新商品进行制造${$.index !== cookiesArr.length ? '\n\n' : ''}`;
                     }
                   }
@@ -665,6 +672,13 @@ function userInfo() {
                   console.log(`\n\n预计最快还需 【${((production.needElectric - production.investedElectric) / (2 * 60 * 60 * 24)).toFixed(2)}天】生产完毕\n\n`)
                 }
                 if (production.status === 3) {
+                  // 一对一消息发送
+                  let tempMsg =  `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}\n【超时未完成】已失效，请选择新商品进行制造`;
+                  const tempParams = {
+                    "onebyone": true,
+                    "pt_pin": $.UserName
+                  }
+                  await notify.sendNotify(`【⏰商品白嫖活动提醒⏰】\n`, tempMsg, tempParams, author = '')
                   $.log(`\n\n商品生产已失效`)
                   $.msg($.name, '', `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}\n【超时未完成】已失效，请选择新商品进行制造`)
                   if ($.isNode() && (`${notifyLevel}` === '3' || `${notifyLevel}` === '2')) allMessage += `【京东账号${$.index}】${$.nickName}\n【生产商品】${$.productName}\n【超时未完成】已失效，请选择新商品进行制造${$.index !== cookiesArr.length ? '\n\n' : ''}`;
