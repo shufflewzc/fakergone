@@ -128,6 +128,16 @@ async function showMsg() {
         }
     }
     if ($.jxFactoryInfo) {
+        if (!$.jxFactoryInfo.contain("预计") ||  !$.jxFactoryInfo.contain("查询")) {
+            // 一对一消息发送
+            let tempMsg = `【账号名称】${$.nickName || $.UserName}\n`;
+            tempMsg += `${$.jxFactoryInfo}\n`;
+            const tempParams = {
+                "onebyone": true,
+                "pt_pin": $.UserName
+            }
+            await notify.sendNotify(`【⏰商品白嫖活动提醒⏰】\n`, tempMsg, tempParams, author = '')
+        }
         ReturnMessage += `京喜工厂：${$.jxFactoryInfo}🏭\n`
     }
     if ($.ddFactoryInfo) {
