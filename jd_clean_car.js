@@ -46,6 +46,14 @@ $.keywordsNum = 0;
                 $.index = i + 1;
                 $.isLogin = true;
                 $.nickName = '';
+
+                if (process.env.CART_CLEAR_INCLUDE_ACCOUNT) {
+                    const cartClearIncludeAccount = process.env.CART_INCLUDE_ACCOUNT.split(",");
+                    if (cartClearIncludeAccount.indexOf($.UserName) === -1) {
+                        continue;
+                    }
+                }
+
                 await checkCookie();
                 console.log(`\n******开始【京东账号${$.index}】${$.nickName || $.UserName}*********\n`);
                 if (!$.isLogin) {
