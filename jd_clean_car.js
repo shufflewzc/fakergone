@@ -48,7 +48,7 @@ $.keywordsNum = 0;
                 $.nickName = '';
 
                 if (process.env.CART_CLEAR_INCLUDE_ACCOUNT) {
-                    const cartClearIncludeAccount = process.env.CART_INCLUDE_ACCOUNT.split(",");
+                    const cartClearIncludeAccount = process.env.CART_CLEAR_INCLUDE_ACCOUNT.split(",");
                     if (cartClearIncludeAccount.indexOf($.UserName) === -1) {
                         continue;
                     }
