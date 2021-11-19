@@ -73,7 +73,7 @@ if ($.isNode()) {
     }
     if (process.env.JXMC_RP != 'false' && flag_hb) {
         console.log('\n##################开始账号内互助(红包)#################\n');
-        await getShareCode('jxmc_hb.json')
+        // await getShareCode('jxmc_hb.json')
         $.inviteCodeList_rp = [...($.inviteCodeList_rp || []), ...($.shareCode || [])]
         for (let j = 0; j < cookiesArr.length; j++) {
             $.cookie = cookiesArr[j];
