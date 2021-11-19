@@ -128,6 +128,16 @@ async function showMsg() {
         }
     }
     if ($.jxFactoryInfo) {
+        if (!$.jxFactoryInfo.includes("预计") && !$.jxFactoryInfo.includes("查询")) {
+            // 一对一消息发送
+            let tempMsg = `【账号名称】${$.nickName || $.UserName}\n`;
+            tempMsg += `${$.jxFactoryInfo}\n`;
+            const tempParams = {
+                "onebyone": true,
+                "pt_pin": $.UserName
+            }
+            await notify.sendNotify(`【⏰商品白嫖活动提醒⏰】\n`, tempMsg, tempParams, author = '')
+        }
         ReturnMessage += `京喜工厂：${$.jxFactoryInfo}🏭\n`
     }
     if ($.ddFactoryInfo) {
@@ -762,7 +772,7 @@ function getJxFactory() {
                                         infoMsg += ` ,预计:${((production.needElectric - production.investedElectric) / (2 * 60 * 60 * 24)).toFixed(2)}天可兑换`
                                     }
                                     if (production.status === 3) {
-                                        infoMsg = "${$.jxProductName} ,已经超时失效, 请选择新商品进行制造"
+                                        infoMsg = `${$.jxProductName} ,已经超时失效, 请选择新商品进行制造`
                                     }
                                 } else {
                                     $.unActive = false;//标记是否开启了京喜活动或者选购了商品进行生产

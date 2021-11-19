@@ -2137,20 +2137,25 @@ function oneByoneNotify(text, desp, params) {
 }
 
 function translateWxEmoji(str) {
-	if (!str) {
-		return;
-	}
-	let tempMsg = str
-	tempMsg = tempMsg.replaceAll("⭕", "[emoji=\\u2b55]")
-	tempMsg = tempMsg.replaceAll("🧧", "[emoji=\\uD83E\\uDDE7]")
-	tempMsg = tempMsg.replaceAll("🥚", "[emoji=\\ud83e\\udd5a]")
-	tempMsg = tempMsg.replaceAll("💰", "[emoji=\\ud83d\\udcb0]")
-	tempMsg = tempMsg.replaceAll("⏰", "[emoji=\\u23f0]")
-	tempMsg = tempMsg.replaceAll("🍒", "[emoji=\\ud83c\\udf52\\u00a]")
-	tempMsg = tempMsg.replaceAll("🐶", "[emoji=\\ud83d\\udc36]")
-	tempMsg = tempMsg.replaceAll("🎰", "[emoji=\\ud83c\\udfb0]")
-	tempMsg = tempMsg.replaceAll("👬", "[emoji=\\ud83d\\udc6c]")
-	return tempMsg
+    try {
+        if (str === undefined || str === null || str === "" || typeof(str) !== 'string') {
+            return str;
+        }
+        let tempMsg = str
+        tempMsg = tempMsg.replaceAll("⭕", "[emoji=\\u2b55]")
+        tempMsg = tempMsg.replaceAll("🧧", "[emoji=\\uD83E\\uDDE7]")
+        tempMsg = tempMsg.replaceAll("🥚", "[emoji=\\ud83e\\udd5a]")
+        tempMsg = tempMsg.replaceAll("💰", "[emoji=\\ud83d\\udcb0]")
+        tempMsg = tempMsg.replaceAll("⏰", "[emoji=\\u23f0]")
+        tempMsg = tempMsg.replaceAll("🍒", "[emoji=\\ud83c\\udf52\\u00a]")
+        tempMsg = tempMsg.replaceAll("🐶", "[emoji=\\ud83d\\udc36]")
+        tempMsg = tempMsg.replaceAll("🎰", "[emoji=\\ud83c\\udfb0]")
+        tempMsg = tempMsg.replaceAll("👬", "[emoji=\\ud83d\\udc6c]")
+        return tempMsg
+    } catch (error) {
+        console.error(error)
+    }
+    return str
 }
 
 function GetDateTime(date) {
