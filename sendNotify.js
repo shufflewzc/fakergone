@@ -2142,6 +2142,9 @@ function translateWxEmoji(str) {
             return str;
         }
         let tempMsg = str
+		if (!tempMsg.replaceAll) {
+            return str;
+        }
         tempMsg = tempMsg.replaceAll("⭕", "[emoji=\\u2b55]")
         tempMsg = tempMsg.replaceAll("🧧", "[emoji=\\uD83E\\uDDE7]")
         tempMsg = tempMsg.replaceAll("🥚", "[emoji=\\ud83e\\udd5a]")
