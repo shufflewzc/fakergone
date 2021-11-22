@@ -47,11 +47,6 @@ $.shareId = [];
       '活动地址: https://blindbox5g.jd.com\n' +
       '活动时间：2021-8-2到2021-10-29\n' +
       '更新时间：2021-8-8 19:00');
-  $.http.get({url: 'https://purge.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_shareCodes.json'}).then((resp) => {}).catch((e) => console.log('刷新CDN异常', e));
-  await $.wait(1000)
-  await updateShareCodesCDN('https://cdn.jsdelivr.net/gh/Aaron-lv/updateTeam@master/shareCodes/jd_shareCodes.json')
-  await $.wait(1000)
-  await getShareCode()
   for (let i = 0; i < cookiesArr.length; i++) {
     if (cookiesArr[i]) {
       cookie = cookiesArr[i];
@@ -83,7 +78,6 @@ $.shareId = [];
     if ($.isNode()) await notify.sendNotify($.name, allMessage);
     $.msg($.name, '', allMessage, {"open-url": "https://blindbox5g.jd.com"})
   }
-  $.shareId = [...($.shareId || []), ...($.updatePkActivityIdRes || []), ...($.zero205Code || [])];
   for (let v = 0; v < cookiesArr.length; v++) {
     cookie = cookiesArr[v];
     $.index = v + 1;
@@ -395,6 +389,9 @@ function shareUrl() {
           console.log(`尝试多次运行脚本即可获取好友邀请码`)
         }
         if (data['code'] === 200) {
+          if (!$.shareId) {
+            $.shareId = [];
+          }
           if (data['data']) $.shareId.push(data['data']);
           console.log(`\n【京东账号${$.index}（${$.nickName || $.UserName}）的${$.name}好友互助码】${data['data']}\n`);
           console.log(`此邀请码一天一变化，旧的不可用`)
