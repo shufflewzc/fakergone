@@ -2158,6 +2158,8 @@ function translateWxEmoji(str) {
         str = str.replace(/📦/g, "[emoji=\\ud83d\\udce6]")
         str = str.replace(/⭐️/g, "[emoji=\\u2b50\\ufe0f]")
 		str = str.replace(/🎉/g, "[emoji=\\ud83c\\udf89]")
+		str = str.replace(/💧/g, "[emoji=\\ud83d\\udca7]")
+		str = str.replace(/🍉/g, "[emoji=\\ud83c\\udf49]")
         return str
     } catch (error) {
         console.error(error)
