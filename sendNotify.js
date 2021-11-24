@@ -2141,25 +2141,30 @@ function translateWxEmoji(str) {
         if (str === undefined || str === null || str === "" || typeof(str) !== 'string') {
             return str;
         }
-        let tempMsg = str
-		if (!tempMsg.replaceAll) {
+        if (!str.replace) {
             return str;
         }
-        tempMsg = tempMsg.replaceAll("⭕", "[emoji=\\u2b55]")
-        tempMsg = tempMsg.replaceAll("🧧", "[emoji=\\uD83E\\uDDE7]")
-        tempMsg = tempMsg.replaceAll("🥚", "[emoji=\\ud83e\\udd5a]")
-        tempMsg = tempMsg.replaceAll("💰", "[emoji=\\ud83d\\udcb0]")
-        tempMsg = tempMsg.replaceAll("⏰", "[emoji=\\u23f0]")
-        tempMsg = tempMsg.replaceAll("🍒", "[emoji=\\ud83c\\udf52\\u00a]")
-        tempMsg = tempMsg.replaceAll("🐶", "[emoji=\\ud83d\\udc36]")
-        tempMsg = tempMsg.replaceAll("🎰", "[emoji=\\ud83c\\udfb0]")
-        tempMsg = tempMsg.replaceAll("👬", "[emoji=\\ud83d\\udc6c]")
-        return tempMsg
+        str = str.replace(/⭕/g, "[emoji=\\u2b55]")
+        str = str.replace(/🧧/g, "[emoji=\\uD83E\\uDDE7]")
+        str = str.replace(/🥚/g, "[emoji=\\ud83e\\udd5a]")
+        str = str.replace(/💰/g, "[emoji=\\ud83d\\udcb0]")
+        str = str.replace(/⏰/g, "[emoji=\\u23f0]")
+        str = str.replace(/🍒/g, "[emoji=\\ud83c\\udf52]")
+        str = str.replace(/🐶/g, "[emoji=\\ud83d\\udc36]")
+        str = str.replace(/🎰/g, "[emoji=\\ud83c\\udfb0]")
+        str = str.replace(/👬/g, "[emoji=\\ud83d\\udc6c]")
+        str = str.replace(/🆔/g, "[emoji=\\ud83c\\udd94\\u0020]")
+        str = str.replace(/🥉/g, "[emoji=\\ud83e\\udd49]")
+        str = str.replace(/📦/g, "[emoji=\\ud83d\\udce6]")
+        str = str.replace(/⭐️/g, "[emoji=\\u2b50\\ufe0f]")
+        
+        return str
     } catch (error) {
         console.error(error)
     }
     return str
 }
+
 
 function GetDateTime(date) {
 
