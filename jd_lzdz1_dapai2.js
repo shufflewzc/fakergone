@@ -30,19 +30,11 @@ if (process.env.NO_RUSH && process.env.NO_RUSH != "") {
     isRush = process.env.NO_RUSH;
 }
 !(async () => {
-    $.getAuthorCodeListerr = false
     if (!cookiesArr[0]) {
         $.msg($.name, '【提示】请先获取京东账号一cookie\n直接使用NobyDa的京东签到获取', 'https://bean.m.jd.com/bean/signIndex.action', { "open-url": "https://bean.m.jd.com/bean/signIndex.action" });
         return;
     }
     
-    authorCodeList = await getAuthorCodeList('https://gitee.com/fatelight/code/raw/master/lzdz1_dapai2.json')
-    if($.getAuthorCodeListerr === false){
-        authorCodeList = [
-            'fe7c806ba1ce4bf09d52bf50df511f98',
-        ]
-    }
-
     for (let i = 0; i < cookiesArr.length; i++) {
         if (cookiesArr[i]) {
             cookie = cookiesArr[i]
@@ -64,8 +56,7 @@ if (process.env.NO_RUSH && process.env.NO_RUSH != "") {
             $.bean = 0;
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
             $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-            // $.authorCode = authorCodeList[random(0, authorCodeList.length)]
-            $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
+            $.authorCode = ownCode;
             $.authorNum = `${random(1000000, 9999999)}`
             $.randomCode = random(1000000, 9999999)
             $.activityId = 'dzkwdlt20211125A'
@@ -194,10 +185,8 @@ function task(function_id, body, isCommon = 0, own = 0) {
                                     if (!data.data.hasEnd) {
                                         $.log(`开启【${data.data.activityName}】活动`)
                                         $.log("-------------------")
-                                        if ($.index === 1) {
-                                            ownCode = data.data.actorUuid
-                                            console.log(ownCode)
-                                        }
+                                        ownCode = data.data.actorUuid
+                                        console.log(ownCode)
                                         $.actorUuid = data.data.actorUuid;
                                         $.skuTask = data.data.addSku;
                                         $.shopTask = data.data.followShop;
@@ -365,31 +354,7 @@ function taskUrl(function_id, body, isCommon) {
 
     }
 }
-function getAuthorCodeList(url) {
-    return new Promise(resolve => {
-        const options = {
-            url: `${url}?${new Date()}`, "timeout": 10000, headers: {
-            "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-            }
-        };
-        $.get(options, async (err, resp, data) => {
-            try {
-                if (err) {
-                    // $.log(err)
-                    $.getAuthorCodeListerr = false
-                } else {
-                if (data) data = JSON.parse(data)
-                    $.getAuthorCodeListerr = true
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-                data = null;
-            } finally {
-                resolve(data);
-            }
-        })
-    })
-}
+
 function getMyPing() {
     let opt = {
         url: `https://lzdz1-isv.isvjd.com/customer/getMyPing`,
