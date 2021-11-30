@@ -7,20 +7,25 @@ Author: Curtin
 Date: 2021/6/25 下午9:16
 TG交流 https://t.me/topstyle996
 TG频道 https://t.me/TopStyle2021
-updateTime: 2021.6.26 20:09
+updateTime: 2021.7.24 14:22
 '''
-
+print("赚京豆-瓜分10亿京豆自动助力--活动已结束\nTG交流 https://t.me/topstyle996\nTG频道 https://t.me/TopStyle2021")
+exit(0)
 #####
-#ck 优先读取ENV的 变量 JD_COOKIE='ck1&ck2'  再到 【JDCookies.txt】 文件内的ck 最后才到脚本内 cookies=ck
+#ck 优先读取【JDCookies.txt】 文件内的ck  再到 ENV的 变量 JD_COOKIE='ck1&ck2' 最后才到脚本内 cookies=ck
 cookies=''
-#助力账号，如给账号1 2 10助力，则填 zlzh = [1,2,10] ,支持ENV export zlzh=[1,2,10]
-zlzh = [1, ]
+#助力账号，填写pt_pin或用户名的值，如 zlzh = ['aaaa','xxxx','yyyy'] ,支持ENV export zlzh=['CurtinLV','xxxx','yyyy']
+zlzh = []
 #####
 
 
 
 import os, re
-import requests
+try:
+    import requests
+except Exception as e:
+    print(e, "\n缺少requests 模块，请执行命令安装：python3 -m pip install requests")
+    exit(3)
 from urllib.parse import unquote
 import json
 import time
@@ -28,7 +33,7 @@ requests.packages.urllib3.disable_warnings()
 pwd = os.path.dirname(os.path.abspath(__file__)) + os.sep
 t = time.time()
 aNum = 0
-
+beanCount = 0
 class getJDCookie(object):
     # 适配各种平台环境ck
     def getckfile(self):
@@ -134,8 +139,6 @@ class getJDCookie(object):
             print("cookie 格式错误！...本次操作已退出")
             exit(4)
 
-getCk = getJDCookie()
-getCk.getCookie()
 
 
 # 获取系统ENV环境参数优先使用 适合Ac、云服务等环境
@@ -147,10 +150,11 @@ if "JD_COOKIE" in os.environ:
 if "zlzh" in os.environ:
     if len(os.environ["zlzh"]) > 1:
         zlzh = os.environ["zlzh"]
-        zlzh = zlzh.replace('[', '').replace(']', '').split(',')
-        print("已获取并使用Env环境 zlzh")
+        zlzh = zlzh.replace('[', '').replace(']', '').replace('\'', '').replace(' ', '').split(',')
+        print("已获取并使用Env环境 zlzh:", zlzh)
 
-
+getCk = getJDCookie()
+getCk.getCookie()
 
 # 开启助力任务
 def starAssist(sid, headers):
@@ -158,9 +162,7 @@ def starAssist(sid, headers):
     try:
         timestamp = int(round(t * 1000))
         url = 'https://api.m.jd.com/api?functionId=vvipclub_distributeBean_startAssist&body={%22activityIdEncrypted%22:%22' + sid + '%22,%22channel%22:%22FISSION_BEAN%22}&appid=swat_miniprogram&client=tjj_m&screen=1920*1080&osVersion=5.0.0&networkType=wifi&sdkName=orderDetail&sdkVersion=1.0.0&clientVersion=3.1.3&area=11&fromType=wxapp&timestamp=' + str(timestamp)
-        resp = requests.get(url=url, headers=headers, verify=False, timeout=30).json()
-        # if resp['success']:
-        #     print(resp)
+        requests.get(url=url, headers=headers, verify=False, timeout=30).json()
         aNum = 0
     except Exception as e:
         if aNum < 5:
@@ -180,9 +182,13 @@ def getShareCode(headers):
         responses = requests.post(url, headers=headers, data=body, verify=False, timeout=30).json()
         if responses['success']:
             data = responses['data']
-            assistStartRecordId = data['assistStartRecordId']
-            encPin = data['encPin']
             sid = data['id']
+            encPin = data['encPin']
+            try:
+                assistStartRecordId = data['assistStartRecordId']
+            except:
+                starAssist(sid, header)
+                return getShareCode(headers)
             aNum = 0
             return assistStartRecordId, encPin, sid
     except Exception as e:
@@ -208,6 +214,7 @@ def setHeaders(cookie):
     return headers
 
 def assist(ck, sid, eid, aid, user, name, a):
+    global beanCount
     timestamp = int(round(t * 1000))
     headers = {
         'Cookie': ck + 'wxclient=gxhwx;ie_ai=1;',
@@ -225,32 +232,47 @@ def assist(ck, sid, eid, aid, user, name, a):
     if resp['success']:
         print(f"用户{a}【{user}】助力【{name}】成功~")
         if resp['data']['assistedNum'] == 4:
-            print("开启下一轮助力")
+            beanCount += 80
+            print(f"{name}, 恭喜获得8毛京豆，以到账为准。")
+            print("## 开启下一轮助力")
             starAssist(sid, header)
             getShareCode(header)
     else:
-        print(f"用户{a}【{user}】助力【{name}】失败！！！")
+        print(f"用户{a}【{userNameList[a-1]}】没有助力次数了。")
+
 
 
 
 #开始互助
 def start():
-    global header
+    global header,cookiesList, userNameList, pinNameList
     print("微信小程序-赚京豆-瓜分助力")
     cookiesList, userNameList, pinNameList = getCk.iscookie()
-    for ckNum in zlzh:
-        print(f"### 开始助力账号【{userNameList[int(ckNum)-1]}】###")
-        header = setHeaders(cookiesList[int(ckNum)-1])
+    for ckname in zlzh:
+        try:
+            ckNum = userNameList.index(ckname)
+        except Exception as e:
+            try:
+                ckNum = pinNameList.index(ckname)
+            except:
+                print("请检查助力账号名称是否正确？提示：助力名字可填pt_pin的值、也可以填用户名。")
+                exit(9)
+
+        print(f"### 开始助力账号【{userNameList[int(ckNum)]}】###")
+
+        header = setHeaders(cookiesList[int(ckNum)])
         getShareCode(header)
         starAssist(sid, header)
         getShareCode(header)
         a = 1
         for i, name in zip(cookiesList, userNameList):
-            if a == ckNum:
+            if a == ckNum+1:
                 a += 1
             else:
-                assist(i, sid, encPin, assistStartRecordId, name, userNameList[int(ckNum)-1], a)
+                assist(i, sid, encPin, assistStartRecordId, name, userNameList[int(ckNum)], a)
                 a += 1
+        if beanCount > 0:
+            print(f'\n### 本次累计获得{beanCount}京豆')
 
 if __name__ == '__main__':
     start()
