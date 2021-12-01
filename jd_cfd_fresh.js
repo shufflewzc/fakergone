@@ -396,39 +396,6 @@ function helpByStage(shareCodes) {
     })
 }
 
-function getAuthorShareCode(url) {
-    return new Promise(async resolve => {
-        const options = {
-            url: `${url}?${new Date()}`, "timeout": 10000, headers: {
-                "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1 Edg/87.0.4280.88"
-            }
-        };
-        if ($.isNode() && process.env.TG_PROXY_HOST && process.env.TG_PROXY_PORT) {
-            const tunnel = require("tunnel");
-            const agent = {
-                https: tunnel.httpsOverHttp({
-                    proxy: {
-                        host: process.env.TG_PROXY_HOST,
-                        port: process.env.TG_PROXY_PORT * 1
-                    }
-                })
-            }
-            Object.assign(options, { agent })
-        }
-        $.get(options, async (err, resp, data) => {
-            try {
-                resolve(JSON.parse(data))
-            } catch (e) {
-                // $.logErr(e, resp)
-            } finally {
-                resolve();
-            }
-        })
-        await $.wait(10000)
-        resolve();
-    })
-}
-
 // 获取用户信息
 function getUserInfo(showInvite = true) {
     return new Promise(async (resolve) => {
@@ -602,42 +569,6 @@ function showMsg() {
     });
 }
 
-//格式化助力码
-function shareCodesFormat() {
-    return new Promise(async resolve => {
-        $.newShareCodes = []
-        const readShareCodeRes = await readShareCode();
-        if (readShareCodeRes && readShareCodeRes.code === 200) {
-          $.newShareCodes = [...new Set([...$.shareCodes, ...(readShareCodeRes.data || [])])];
-        } else {
-          $.newShareCodes = [...new Set([...$.shareCodes])];
-        }
-        console.log(`您将要助力的好友${JSON.stringify($.newShareCodes)}`)
-        resolve();
-    })
-}
-function readShareCode() {
-    return new Promise(async resolve => {
-        $.get({url: `https://ghproxy.com/https://raw.githubusercontent.com/jiulan/helpRepository/main/json/cfd_hb.json`, 'timeout': 10000}, (err, resp, data) => {
-            try {
-                if (err) {
-                    console.log(`${JSON.stringify(err)}`)
-                    console.log(`${$.name} API请求失败，请检查网路重试`)
-                } else {
-                    if (data) {
-                        data = JSON.parse(data);
-                    }
-                }
-            } catch (e) {
-                $.logErr(e, resp)
-            } finally {
-                resolve(data);
-            }
-        })
-        await $.wait(10000);
-        resolve()
-    })
-}
 function TotalBean() {
     return new Promise(resolve => {
         const options = {
