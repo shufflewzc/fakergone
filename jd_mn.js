@@ -50,16 +50,10 @@ if (process.env.NO_RUSH && process.env.NO_RUSH != "") {
                 continue
             }
             
-            authorCodeList = [
-                '13fb21d2292240ffbb6151d7098300fe',
-                'a25c65caa19e480093256c2be4347c10',
-                '413dcfbcc0414bd3a10a4402bc984deb',
-                '37f4602c3ada4ef9873a4f84b5495a0c'
-            ]
             $.bean = 0;
             $.ADID = getUUID('xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', 1);
             $.UUID = getUUID('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-            $.authorCode = ownCode ? ownCode : authorCodeList[random(0, authorCodeList.length)]
+            $.authorCode = ownCode || ""
             $.authorNum = `${random(1000000, 9999999)}`
             $.activityId = 'e319ac3cef964226a29eac2559f1cf57'
             $.activityShopId = '1000014803'
