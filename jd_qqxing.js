@@ -62,7 +62,7 @@ if (process.env.QQ_STAR_SHARE_CODE) {
                         "open-url": "https://bean.m.jd.com/bean/signIndex.action"
                     });
                     if ($.isNode()) {
-                        await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
+                        // await notify.sendNotify(`${$.name}cookie已失效 - ${$.UserName}`, `京东账号${$.index} ${$.UserName}\n请重新登录获取cookie`);
                     }
                     continue
                 }
@@ -113,7 +113,7 @@ if (process.env.QQ_STAR_SHARE_CODE) {
         }
         if (message.length != 0) {
         if ($.isNode()) {
-           await notify.sendNotify("星系牧场", `${message}\n牧场入口：QQ星儿童牛奶京东自营旗舰店->星系牧场\n\n吹水群：https://t.me/wenmouxx`);
+        //    await notify.sendNotify("星系牧场", `${message}\n牧场入口：QQ星儿童牛奶京东自营旗舰店->星系牧场\n\n吹水群：https://t.me/wenmouxx`);
    }  else {
             $.msg($.name, "", '星系牧场' + message)
         }
