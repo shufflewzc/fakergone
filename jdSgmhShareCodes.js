@@ -10,7 +10,7 @@ let SgmhShareCodes = [
 ]
 
 // 从日志获取互助码
-const logShareCodes = require('./utils/jdShareCodes');
+const logShareCodes = require('/ql/scripts/utils/jdShareCodes');
 if (logShareCodes.JDSGMH_SHARECODES.length > 0 && !process.env.JDSGMH_SHARECODES) {
   process.env.JDSGMH_SHARECODES = logShareCodes.JDSGMH_SHARECODES.join('&');
 }

@@ -10,7 +10,7 @@ let PetShareCodes = [
 ]
 
 // 从日志获取互助码
-const logShareCodes = require('./utils/jdShareCodes');
+const logShareCodes = require('/ql/scripts/utils/jdShareCodes');
 if (logShareCodes.PETSHARECODES.length > 0 && !process.env.PETSHARECODES) {
   process.env.PETSHARECODES = logShareCodes.PETSHARECODES.join('&');
 }

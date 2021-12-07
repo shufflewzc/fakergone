@@ -10,7 +10,7 @@ let CashShareCodes = [
 ]
 
 // 从日志获取互助码
-const logShareCodes = require('./utils/jdShareCodes');
+const logShareCodes = require('/ql/scripts/utils/jdShareCodes');
 if (logShareCodes.JD_CASH_SHARECODES.length > 0 && !process.env.JD_CASH_SHARECODES) {
   process.env.JD_CASH_SHARECODES = logShareCodes.JD_CASH_SHARECODES.join('&');
 }

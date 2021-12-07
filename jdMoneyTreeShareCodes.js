@@ -9,7 +9,7 @@
 let MoneyTreeShareCodes = [
 ]
 
-const logShareCodes = require('./utils/jdShareCodes');
+const logShareCodes = require('/ql/scripts/utils/jdShareCodes');
 if (logShareCodes.MONEYTREE_SHARECODES.length > 0 && !process.env.MONEYTREE_SHARECODES) {
   process.env.MONEYTREE_SHARECODES = logShareCodes.MONEYTREE_SHARECODES.join('&');
 }

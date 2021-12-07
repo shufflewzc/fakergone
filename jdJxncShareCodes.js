@@ -15,7 +15,7 @@
 let JxncShareCodes = [
 ]
 
-const logShareCodes = require('./utils/jdShareCodes');
+const logShareCodes = require('/ql/scripts/utils/jdShareCodes');
 if (logShareCodes.JXNC_SHARECODES.length > 0 && !process.env.JXNC_SHARECODES) {
   process.env.JXNC_SHARECODES = logShareCodes.JXNC_SHARECODES.join('&');
 }
