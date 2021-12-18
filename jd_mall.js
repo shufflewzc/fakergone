@@ -14,7 +14,7 @@ if ($.isNode()) {
   if (process.env.JD_DEBUG && process.env.JD_DEBUG === "false")
     console.log = () => {};
   if (process.env.ACT_URL && process.env.ACT_URL === '') console.log = () => {};
-  actURL = process.env.ACT_URL || 'https://gitee.com/fatelight/code/raw/master/mall_active.json'
+  actURL = process.env.ACT_URL || ''
 } else {
   cookiesArr = [$.getdata("CookieJD"), $.getdata("CookieJD2"), ...$.toObj($.getdata("CookiesJD") || "[]").map((item) => item.cookie)].filter((item) => !!item);
 }
