@@ -91,11 +91,12 @@ const $http = got.extend({
 
 // 查询应用信息
 function findQlApp() {
-    return new Promise((resolve => {
+    return new Promise(((resolve) => {
         db.find({name: appName}, function (err, docs) {
             if (docs.length < 1) {
                 console.log(`没有获取到应用名称为${appName}的信息`)
                 console.log(`需要在青龙面板->系统设置->应用设置 新增名为${appName}的应用，且选中【环境变量】权限`)
+                resolve(null)
             }
             resolve(docs)
         });
@@ -114,7 +115,9 @@ async function getToken() {
     }
     // 内存中无有效token
     console.log('内存中无有效token...，从db中获取token')
-    const {client_id, client_secret, tokens} = (await findQlApp())[0]
+    const App = await findQlApp();
+    if (!App) return
+    const {client_id, client_secret, tokens} = App[0]
     if (tokens && tokens.length > 0) {
         // 取出最后一位token
         const lastToken = tokens[tokens.length - 1];
@@ -223,7 +226,7 @@ async function createEnv(name, value) {
         }]
     }).json()
     if (res.code === 200) {
-        console.log("新增互助码成功");
+        console.log("新增互助码成功\n");
     } else {
         console.log(res.message);
     }
