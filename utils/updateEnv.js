@@ -203,9 +203,9 @@ function getEnvByName(name) {
 }
 
 async function updateEnvs() {
-    const allEnvsKeys = Object.keys(shareCodeKeys);
-    for (let i = 0; i < allEnvsKeys.length; i++) {
-        const envName = allEnvsKeys[i]
+    const allEnvsValues= Object.values(shareCodeKeys);
+    for (let i = 0; i < allEnvsValues.length; i++) {
+        const envName = allEnvsValues[i]
         await updateEnv(envName)
     }
 }
@@ -231,7 +231,6 @@ async function updateEnv(name) {
     if (!env) {
         return createEnv(name, value)
     }
-    console.log(`开始更新${title}互助码=========`)
     const {_id} = env
     const data = {
         _id,
