@@ -42,44 +42,77 @@ const shareCodeKeys = {
     qdlxj: 'JD_CASH_SHARECODES',
     sgmh: 'JDSGMH_SHARECODES',
     ddmc: 'PETSHARECODES',
+    ddgc: 'DDFACTORY_SHARECODES',
+    crazyJoy: 'JDJOY_SHARECODES',
+    jdzz: 'JDZZ_SHARECODES',
 }
 // 各活动互助次数
+// post 可助力次数
+// accept 可被助力次数
+// 未知：99
 const shareCodeCountMap = {
     // 种豆得豆
     [shareCodeKeys.zddd]: {
         title: '种豆得豆',
         accept: 9,
-        post: 3
+        post: 3,
+        codes: []
     },
     // 东东农场
     [shareCodeKeys.ddnc]: {
         title: '东东农场',
         accept: 8,
-        post: 3
+        post: 3,
+        codes: []
     },
     // 东东萌宠
     [shareCodeKeys.ddmc]: {
         title: '东东萌宠',
         accept: 5,
-        post: 5
+        post: 5,
+        codes: []
     },
     // 京喜工厂
     [shareCodeKeys.jxgc]: {
         title: '京喜工厂',
         accept: 4,
-        post: 3
+        post: 3,
+        codes: []
     },
     // 签到领现金
     [shareCodeKeys.qdlxj]: {
         title: '签到领现金',
         accept: 10,
-        post: 10
+        post: 10,
+        codes: []
     },
     // 闪购盲盒
     [shareCodeKeys.sgmh]: {
         title: '闪购盲盒',
         accept: 10,
-        post: 10
+        post: 10,
+        codes: []
+    },
+    // 东东工厂
+    [shareCodeKeys.ddgc]: {
+        title: '东东工厂',
+        accept: 5,
+        post: 3,
+        codes: []
+    },
+    // 疯狂joy
+    [shareCodeKeys.crazyJoy]: {
+        title: '疯狂joy',
+        accept: 6,
+        post: 99,
+        codes: []
+    },
+    // 京东赚赚
+    [shareCodeKeys.jdzz]: {
+        title: '京东赚赚',
+        accept: 5,
+        post: 2,
+        codes: []
     },
 }
 
@@ -169,8 +202,15 @@ function getEnvByName(name) {
     return envs.find((item) => item.name === name);
 }
 
-async function updateEnv(name, shareCodes) {
+async function updateEnvs() {
+    const allEnvsKeys = Object.keys(shareCodeKeys);
+    for (let i = 0; i < allEnvsKeys.length; i++) {
+        const envName = allEnvsKeys[i]
+        await updateEnv(envName)
+    }
+}
 
+async function updateEnv(name) {
     if (!remarks.length) {
         for (let i = 0; i < jdCookies.length; i++) {
             remarks.push(await findRemarks(jdCookies[i]))
@@ -179,7 +219,11 @@ async function updateEnv(name, shareCodes) {
     if (!envs.length) {
         await getEnvs();
     }
-    const {title, accept, post} = shareCodeCountMap[name]
+    const {title, accept, post, codes: shareCodes} = shareCodeCountMap[name];
+    if(!shareCodes.length){
+        console.log(`${title}无人开通活动，没有助力码。不添加环境变量`)
+        return Promise.resolve()
+    }
     console.log(`${title}可给${post}人互助，可被互助${accept}次`)
     // 查找对应环境变量
     let env = getEnvByName(name);
@@ -274,7 +318,21 @@ function getTransformCode(arr, accept, post) {
 
 }
 
+/**
+ * 将互助码添加到对应的对象数组中
+ * @param target 活动名称
+ * @param code 互助码集合
+ * @param cookieIndex 账号索引
+ */
+function pushCodes(target, code, cookieIndex) {
+    shareCodeCountMap[target].codes.push({
+        code,
+        cookieIndex
+    })
+}
+
 module.exports = {
-    updateEnv,
-    shareCodeKeys
+    updateEnvs,
+    shareCodeKeys,
+    pushCodes
 };
