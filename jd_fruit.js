@@ -44,6 +44,7 @@ let jdFruitBeanCard = false;//农场使用水滴换豆卡(如果出现限时活�
 let randomCount = $.isNode() ? 20 : 5;
 const JD_API_HOST = 'https://api.m.jd.com/client.action';
 const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%20%22des%22:%20%22m%22,%20%22url%22:%20%22https://h5.m.jd.com/babelDiy/Zeus/3KSjXqQabiTuD1cJ28QskrpWoBKT/index.html%22%20%7D`;
+const FRUIT_PERCENT = parseInt(process.env.FRUIT_PERCENT)
 !(async () => {
   await requireConfig();
   if (!cookiesArr[0]) {
@@ -72,10 +73,13 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
       option = {};
       await shareCodesFormat();
       await jdFruit();
+      if (FRUIT_PERCENT && (i + 1) % FRUIT_PERCENT === 0) {
+        await sendMsg()
+      }
     }
   }
-  if ($.isNode() && allMessage && $.ctrTemp) {
-    await notify.sendNotify(`${$.name}`, `${allMessage}`)
+  if (!FRUIT_PERCENT) {
+    await sendMsg()
   }
 })()
     .catch((e) => {
@@ -84,6 +88,16 @@ const urlSchema = `openjd://virtual?params=%7B%20%22category%22:%20%22jump%22,%2
     .finally(() => {
       $.done();
     })
+async function sendMsg() {
+  if ($.isNode() && allMessage && $.ctrTemp) {
+    await notify.sendNotify(`${$.name}`, `${allMessage}`)
+    // 分段后重置msg
+    if (FRUIT_PERCENT) {
+      allMessage = ''
+    }
+  }
+  return Promise.resolve()
+}
 async function jdFruit() {
   subTitle = `【京东账号${$.index}】${$.nickName || $.UserName}`;
   try {
