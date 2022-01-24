@@ -50,5 +50,5 @@ https://www.notion.so/Cent-OS-7-6-1c598629675145988b43a37998a1604a
 * [@FKPYW](https://github.com/FKPYW/dongge) 「小埋」
 * [@Smiek2121](https://github.com/smiek2121/scripts) 「呱呱」
 * [@star261](https://github.com/star261/jd) 
-*
+
 # 欢迎Pull Request！
